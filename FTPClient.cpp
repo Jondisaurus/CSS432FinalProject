@@ -231,13 +231,13 @@ char* FTPClient::recvMessage() {
 
     while(1){
         //std::cout << "val: " << val << std::endl; 
-        msg_size = read(clientSD, buffer, sizeof(buffer));
+        msg_size = read(clientSD, buffer, BUFSIZE);
         //std::cout << "Buffer: " << buffer << std::endl; 
         if(msg_size > 0) {
            message.append(buffer);
         }
 
-        if(buffer[msg_size-1] == '\n' ){
+        if(buffer[msg_size-1] == '\n' && buffer[msg_size-2] == '\r'){
             break; 
         }
 
