@@ -221,15 +221,15 @@ char* FTPClient::recvMessage() {
     }
 
 //////////////
-// Polling added by Jon, leaving old code Just in case
-// This will now read until there is nothing left
+// Polling added by Jon, leaving old code just in case
+// This should read until there is nothing left
 
     ufds.fd = clientSD;
     ufds.events = POLLIN;
     ufds.revents = 0; 
-    int val = poll(&ufds,1,1000);
+    //int val = poll(&ufds,1,1000);
 
-    while(val > 0){
+    while(1){
         //std::cout << "val: " << val << std::endl; 
         msg_size = read(clientSD, buffer, sizeof(buffer));
         //std::cout << "Buffer: " << buffer << std::endl; 
@@ -241,7 +241,7 @@ char* FTPClient::recvMessage() {
             break; 
         }
 
-        int val = poll(&ufds,1,1000);
+        //int val = poll(&ufds,1,1000);
     }
     std::cout << "Message: " << message << std::endl; 
 ///////////////////////
