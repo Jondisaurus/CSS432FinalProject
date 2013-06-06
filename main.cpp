@@ -76,8 +76,6 @@ int main( int argc, char* argv[] ) {
             client->quit();
         }else if(!strcmp(userInput[0], "quit")){
             client->quit();
-        }else if(strcmp(userInput[0], "help") || strcmp(userInput[0], "?")){
-            outputHelp(); 
         }else{
             std::cout << "\nINVALID COMMAND - Please re-enter..." << std::endl;
         }
