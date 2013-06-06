@@ -7,6 +7,10 @@
 char** userInput;
 int inputSize = 0; 
 
+
+///This function presents the user with a command line then stores the
+// results in char** userInput as indiviual tokens. the number of tokens is
+// given by the global variable inputSize.
 char** getUserInput() {
     if(userInput){
         delete userInput; 
@@ -21,24 +25,12 @@ char** getUserInput() {
     std::cout << "\nftp> ";
     std::cin.getline(input, CHAR_SIZE, '\n');
 
-    std::cout << "\nSplitting " << input << " into tokens";
-
     userInput[inputSize] = strtok(input, " ");
- 
-    std::cout << "\nTOKEN: " << userInput[inputSize];
-    //inputSize++;
 
     while(userInput[inputSize] != NULL) {
         inputSize++;
         userInput[inputSize] = strtok(NULL, " \n");
-        //if(userInput[inputSize] == NULL){
-            //inputSize--; 
-            //break;
-        //}
-
-        //std::cout << "\nTOKEN: " << userInput[inputSize];
     }
-    //inputSize++; // because I love one-off errors
     return userInput;
 }
 
@@ -71,8 +63,8 @@ int main( int argc, char* argv[] ) {
     //TESTING GET USER INPUT!!!
     getUserInput();
 
-    for(int i = 0; i <= inputSize; i++){
-        std::cout << userInput[i] << std::endl; 
+    for(int i = 0; i < inputSize; i++){
+        std::cout << i << ": " << userInput[i] << std::endl; 
     }
 
 
