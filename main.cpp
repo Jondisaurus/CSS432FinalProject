@@ -51,6 +51,8 @@ void outputHelp() {
 }
 
 
+
+
 int main( int argc, char* argv[] ) {
 
     FTPClient* client = new FTPClient();
@@ -58,83 +60,20 @@ int main( int argc, char* argv[] ) {
     char* password = new char[CHAR_SIZE];
     char* dirName = new char[CHAR_SIZE];
 
+    while(1){
+        getUserInput();
 
-
-    //TESTING GET USER INPUT!!!
-    getUserInput();
-
-    for(int i = 0; i < inputSize; i++){
-        std::cout << i << ": " << userInput[i] << std::endl; 
-    }
-
-
-
-#if 0
-    for(int i = 0; i < CHAR_SIZE; i++) {
-        userName[i] = password[i] = dirName[i] = ' ';
-    }
-
-    if(argc != 3) {
-        std::cout << "\nUSAGE: " << argv[0] << " [hostname] [port]";
-    }
-
-
-
-    //connect to server
-    if(!client->open(argv[1],atoi(argv[2]))) {
-        std::cout << "\nConnection refused...";
-        exit(0);
-    }
-
-    std::cout << "\nClient connected! Woop woop!";
-
-    bool runProgram = true;
-    while(runProgram) {
-
-        char** userInput = getUserInput();
-#endif
-#if 0
-        //NOTE I DONT KNOW HOW TO WRITE C SWITCHES APPARENTLY
-        //DUMB DUMB DUMB DUMB DUMB
-        switch(userInput[0]) {
-        case "login":
-            getUserCredentials(userName, password);
-            break;
-        case "get":
-            client->getFile(userInput[1]);
-            break;
-        case "put":
-            client->putFile(userInput[1]);
-            break;
-        case "quit":
-            client->quit();
-            runProgram = false;
-            break;
-        case "close":
-            client->close();
-            break;
-        case "ls":
+        if(strcmp(userInput[0], "cd")){
             client->changeDir(userInput[1]);
-            break;
-        case "?":
-            outputHelp();
-            break;
-        default:
-            std::cout << "\nInput not recognized, please re-enter or type ? for help";
-            break;
+        }else if(strcmp(userInput[0], "ls"){
+            std::cout << getCurrentDirContents() << std::endl;
+        }else if(strcmp(userInput[0], "get"){
+
+        }else if(strcmp(userInput[0], "put"){
+
+        }else{
+
         }
-#endif
-//    }
 
-
-
-
-
-    //Send user/pass
-    //client->sendUserName(userName);
-    //client->sendPassword(password);
-
-    //client->changeDir(dirName);
-
-    //delete client;
+    }
 }
