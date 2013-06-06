@@ -12,11 +12,12 @@ int inputSize = 0;
 // results in char** userInput as indiviual tokens. the number of tokens is
 // given by the global variable inputSize.
 char** getUserInput() {
+    // std::cout << "get user input!!" << std::endl;
+
     if(userInput){
         delete userInput; 
     }
     userInput = new char*;
-
     char* temp;
     char input[CHAR_SIZE];
     inputSize = 0;
@@ -47,12 +48,13 @@ void getUserCredentials(char*& userName, char*& password) {
 }
 
 void outputHelp() {
-    std::cout << "this is a stub :<";
+    std::cout << "this is a stub :< (outputHelp)";
 }
 
 int main( int argc, char* argv[] ) {
 
     FTPClient* client = new FTPClient();
+    // std::cout << "ftp client created" << std::endl;
     char* userName = new char[CHAR_SIZE];
     char* password = new char[CHAR_SIZE];
     char* dirName = new char[CHAR_SIZE];
@@ -60,19 +62,19 @@ int main( int argc, char* argv[] ) {
     while(1){
         getUserInput();
 
-        if(strcmp(userInput[0], "cd")){
+        if(!strcmp(userInput[0], "cd")){
             client->changeDir(userInput[1]);
-        }else if(strcmp(userInput[0], "ls")){
+        }else if(!strcmp(userInput[0], "ls")){
             std::cout << client->getCurrentDirContents() << std::endl;
-        }else if(strcmp(userInput[0], "get")){
+        }else if(!strcmp(userInput[0], "get")){
             client->getFile(userInput[0]);
-        }else if(strcmp(userInput[0], "put")){
+        }else if(!strcmp(userInput[0], "put")){
             client->putFile(userInput[0]);
-        }else if(strcmp(userInput[0], "close")){
+        }else if(!strcmp(userInput[0], "close")){
             client->close();
-        }else if(strcmp(userInput[0], "exit")){
+        }else if(!strcmp(userInput[0], "exit")){
             client->quit();
-        }else if(strcmp(userInput[0], "quit")){
+        }else if(!strcmp(userInput[0], "quit")){
             client->quit();
         }else{
             std::cout << "\nINVALID COMMAND - Please re-enter..." << std::endl;

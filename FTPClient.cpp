@@ -1,6 +1,7 @@
 #include "FTPClient.h"
 #include <fstream>
 #define BUFSIZE 8192
+
 FTPClient::FTPClient() {
     clientSD = 0;
     char url[] = "ftp.tripod.com";
@@ -11,7 +12,7 @@ FTPClient::FTPClient() {
     }
     int code = login(username, password);
     if(code == 230)
-        std::cout << "FTP>\tClient logged in\n" << std::endl;
+        std::cout << "FTP>\tClient logged in" << std::endl;
     else
 	//std::cout << "Code was: " << code << std::endl;
     exit(1);
@@ -23,9 +24,12 @@ FTPClient::~FTPClient() {
 int FTPClient::open(char* hostName, int port) {
     //Setup
     char buffer_in[1450];
+    // char buf[1450];
 
-    for(int i = 0; i < 1448; i++)
-	buffer_in[i] = '\0'; 
+    // for(int i = 0; i < 1448; i++)
+	// buffer_in[i] = '\0'; 
+
+    bzero(buffer_in,1450);
 
     // Attempt to connect to server
     sock = new Socket(port);
@@ -33,8 +37,17 @@ int FTPClient::open(char* hostName, int port) {
     //std::cout << "sd is" << clientSD << std::endl;
 
     // Read Connection acknoledgement from server.
-    read(clientSD, buffer_in, 1450);
-    std::cout << "FTP>\t" << buffer_in;
+    
+    // if ( val > 0 ) {                  // the socket is ready to read
+      // char buf[1450];
+      // int nread = read( clientSD, buf, 1450 ); // guaranteed to return from read 
+                                           // even if nread < BUFLEN
+      // int nread = read( sd, buf, BUFLEN ); // guaranteed to return from read
+    // }
+    //read(clientSD, buffer_in, 1450);
+    //std::cout << "FTP>\t" << buffer_in;
+    strcpy( buffer_in, recvMessage() );
+    std::cout << "FTP>\t" << buffer_in << std::endl;
     while(getReturnCode(buffer_in) != 220) {
 	   std::cout << "Incorrect hostname and port: Enter new one" <<  std::endl;
     }
@@ -43,12 +56,13 @@ int FTPClient::open(char* hostName, int port) {
 }
 
 int FTPClient::close() {
-    std::cout << "\nConsider yourself STUBBED!!";
+    std::cout << "\nConsider yourself STUBBED!! (close)";
     //Close the connection o.o
     return true;
 }
 
 void FTPClient::quit() {
+    std::cout << "\nConsider yourself STUBBED!! (quit)";
     //Close the connection, of course
     close();
     //Quit the program, bro
@@ -72,6 +86,13 @@ int FTPClient::login(char *username, char *password) {
 	   std::cin >> password;
 	   code = sendPassword(password);
     }
+
+    char buffer[BUFSIZE];
+    bzero(buffer,BUFSIZE);
+
+    strcpy(buffer,recvMessage() );
+
+    std::cout << buffer << std::endl;
 
     return code;
 }
@@ -101,6 +122,7 @@ int FTPClient::sendUserName(char* username) {
     return getReturnCode(buffer);
 }
 
+//get the first 3 chars from the received message and conver to an int
 int FTPClient::getReturnCode( char *message) {
     char temp[4];
     if(message == NULL || strlen(message) <= 3)
@@ -148,6 +170,22 @@ int FTPClient::sendMessage(char* buffer) {
     return size;
 }
 
+int FTPClient::sendPASV(){
+
+    std::cout << "in sendPASV" << std::endl;
+
+    char buffer[70];
+    bzero(buffer, 70 );
+
+    sendMessage("PASV ");
+    strcpy( buffer, recvMessage() );
+
+    int port = getPortFromPASV( buffer );
+
+    std::cout << "port: " << port << std::endl;
+
+    return 0;
+}
 
 
 #if 0
@@ -171,42 +209,41 @@ char* FTPClient::recvMessage() {
     std::string message;
     bzero(buffer, BUFSIZE);
     char *retMsg;
-    int size = 0;
+    int msg_size = 0;
 
     char buffer_in[BUFSIZE];
     for(int i = 0; i < BUFSIZE; i++){
         buffer_in[i] = '\0';
     }
     do {
-
-	    size = recv(clientSD, buffer_in, BUFSIZE -1,0);
-	    //std::cout << "Size: " << size << std::endl;
+	    msg_size = recv(clientSD, buffer_in, BUFSIZE -1,0);
+	    //std::cout << "Size: " << msg_size << std::endl;
  	    //std::cout << buffer_in << std::endl;
 
 //	}
-	   if(size > 0) {
+	   if(msg_size > 0) {
 	       message.append(buffer_in);
            //std::cout << message << std::endl; 
 	   }
 	   else {
 	       break;
 	   }
-    } while(size < 0);
+    } while(msg_size < 0);
 
     //std::cout << "Just recieved " << message << std::endl;
 
     char error[] = "Error receiving message";
-    if( size > 0) {
+    if( msg_size > 0) {
   	    retMsg = new char[message.length() + 1];
 	    strcpy(retMsg, message.c_str());
-	    int size = strlen(retMsg);
-	    for(int i = size - 1; i > size - 3; i--)
+	    int msg_size = strlen(retMsg);
+	    for(int i = msg_size - 1; i > msg_size - 3; i--)
 	        if(retMsg[i] == '\n' || retMsg[i] == '\r')
 		        retMsg[i] = '\0';
     //std::cout << "retMsg:  " << retMsg << std::endl; 
 	    return retMsg;
     }
-    //else if (size == 0)
+    //else if (msg_size == 0)
 	return '\0';
     //else throw (new Exception (error, RECV_EXCEPTION));
 }
@@ -247,19 +284,65 @@ char* FTPClient::recvMessage() {
     return ctrlBuf;
 }
 #endif
+
+int FTPClient::getPortFromPASV( char* buffer ) {
+
+    // std::cout << "in getPortFromPASV" << std::endl;
+
+    // std::cout << buffer << std::endl;
+    int address[6];
+    char tempBuf[4];
+    bzero(tempBuf, 6);
+    char tempChar;
+    int j = 0,k = 0;
+
+    for(int i=20; i < strlen(buffer) ;i++ ) {
+        if(buffer[i] == ',' || buffer[i] == ')') {
+            // std::cout << tempBuf << std::endl;
+            address[j] = atoi(tempBuf);
+            j++;
+            k = 0;
+            bzero(tempBuf, 6);
+            //tempBuf = new std::string;
+        }
+        else {
+            if( isdigit( buffer[i] )) {
+                // std::cout << buffer[i] << std::endl;
+                tempBuf[k] = buffer[i];
+                k++;
+            }
+
+        }
+    }
+
+
+    // for( int i = 0; i < 6 ; i++ ) {
+    //     std::cout << i << ": " << address[i] << std::endl;
+    // }
+    int port = address[4] * 256 + address[5];
+
+    return port;
+}
+
 bool FTPClient::changeDir(char* dirName) {
-    std::cout << "\nConsider yourself STUBBED!!";
+    std::cout << "\nConsider yourself STUBBED!! (changeDir)";
     return true;
 }
 char* FTPClient::getCurrentDirContents() {
-    std::cout << "\nConsider yourself STUBBED!!";
+    std::cout << "\nConsider yourself STUBBED!! (getCurrentDirContents)";
+    sendPASV();
     return NULL;
 } //returns buffer with directory contents
 bool FTPClient::getFile(char* fileName) {
-    std::cout << "\nConsider yourself STUBBED!!";
+    std::cout << "\nConsider yourself STUBBED!! (getFile)";
     return true;
 }
 bool FTPClient::putFile(char* fileName) {
-    std::cout << "\nConsider yourself STUBBED!!";
+    std::cout << "\nConsider yourself STUBBED!! (putFile)";
+    return true;
+}
+bool FTPClient::listDir( char* pathname ) {
+    std::cout << "\nConsider yourself STUBBED!! (listDir)";
+    sendPASV();
     return true;
 }
