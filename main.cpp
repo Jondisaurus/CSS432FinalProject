@@ -50,9 +50,6 @@ void outputHelp() {
     std::cout << "this is a stub :<";
 }
 
-
-
-
 int main( int argc, char* argv[] ) {
 
     FTPClient* client = new FTPClient();
@@ -65,14 +62,20 @@ int main( int argc, char* argv[] ) {
 
         if(strcmp(userInput[0], "cd")){
             client->changeDir(userInput[1]);
-        }else if(strcmp(userInput[0], "ls"){
-            std::cout << getCurrentDirContents() << std::endl;
-        }else if(strcmp(userInput[0], "get"){
-
-        }else if(strcmp(userInput[0], "put"){
-
+        }else if(strcmp(userInput[0], "ls")){
+            std::cout << client->getCurrentDirContents() << std::endl;
+        }else if(strcmp(userInput[0], "get")){
+            client->getFile(userInput[0]);
+        }else if(strcmp(userInput[0], "put")){
+            client->putFile(userInput[0]);
+        }else if(strcmp(userInput[0], "close")){
+            client->close();
+        }else if(strcmp(userInput[0], "exit")){
+            client->quit();
+        }else if(strcmp(userInput[0], "quit")){
+            client->quit();
         }else{
-
+            std::cout << "\nINVALID COMMAND - Please re-enter..." << std::endl;
         }
 
     }
