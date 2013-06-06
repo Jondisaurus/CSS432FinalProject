@@ -79,7 +79,7 @@ int main( int argc, char* argv[] ) {
         }else if(strcmp(userInput[0], "help") || strcmp(userInput[0], "?")){
             outputHelp(); 
         }else{
-            std::cout << "\nINVALID COMMAND - Please re-enter..." << std::endl;
+            std::cout << "\nINVALID COMMAND - Please re-enter or type (?)" << std::endl;
         }
 
     }
