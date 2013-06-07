@@ -274,7 +274,6 @@ int FTPClient::getPortFromPASV( char* buffer ) {
         }
     }
 
-
     // for( int i = 0; i < 6 ; i++ ) {
     //     std::cout << i << ": " << address[i] << std::endl;
     // }
@@ -293,15 +292,19 @@ bool FTPClient::changeDir(char* dirName) {
 //List command
 char* FTPClient::getCurrentDirContents() {
     int code;
-    char* bufptr;
+    char* dataptr;
+    char* msgptr; 
     char buffer[BUFSIZE];
     bzero(buffer, BUFSIZE);
 
-    sendPASV();                 //get PASV connection setup with dataSD
+    //get PASV connection setup with dataSD
+    sendPASV(); 
 
-    int tempSD = clientSD;      //save clientSD temporarily, we will need it
+    //save clientSD temporarily, we will need it                
+    int tempSD = clientSD;      
 
-    strcpy(buffer, "LIST");                 //add LIST to buffer to be sent
+    //add LIST to buffer to be sent
+    strcpy(buffer, "LIST");                 
 
     //send LIST, output error if there was one, message sent on clientSD
     if(sendMessage(buffer) < 0) {
@@ -310,29 +313,29 @@ char* FTPClient::getCurrentDirContents() {
     }  
 
     //Get message from server
-    bufptr = recvMessage();
-    std::cout << bufptr << std::endl;
+    msgptr = recvMessage();
+    std::cout << msgptr << std::endl;
 
 
     //set clientSD to dataSD
     clientSD = dataSD; 
 
     //recieve data buffer from server
-    bufptr = recvMessage();
-    std::cout << bufptr << std::endl;
+    dataptr = recvMessage();
+    std::cout << dataptr << std::endl;
 
     //set clientSD to itself again
     clientSD = tempSD;   
 
     //Recieve end of stream message
-    bufptr = recvMessage();  
-    std::cout << bufptr << std::endl;
+    msgptr = recvMessage();  
+    std::cout << msgptr << std::endl;
 
     //close PASV connection
     close( dataSD );                        
 
     //return buffer with directory contents
-    return bufptr;
+    return dataptr;
 
 }
 
