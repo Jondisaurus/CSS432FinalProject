@@ -158,12 +158,7 @@ int FTPClient::sendPassword(char* password) {
     //std::cout << buffer << std::endl;
     return getReturnCode(buffer);
 }
-/*
-int FTPClient::sendMessage(){
-    memset( ctrlBuf, '\0', sizeof( ctrlBuf ) );
-    ctrlBuf[send_bytes] = 0
-}
-*/
+
 //-----------------------------------------------------------------------------
 int FTPClient::sendMessage(char* buffer) {
 
@@ -173,12 +168,8 @@ int FTPClient::sendMessage(char* buffer) {
     strcpy(message, buffer);
     strcat(message,  "\r\n");
 
-    //message[send_length] = 0; 
-    //strcat(message, "\0");
-    //std::cout << "Sending Message: " << strlen(message) << " " << std::endl;
-    //std::cout << message << std::endl;
     int size = write(clientSD, message, send_length+2);
-    //std::cout << "Size: " << size << std::endl;
+
     return size;
 }
 
@@ -204,22 +195,7 @@ int FTPClient::sendPASV(){
 
     return 0;
 }
-//-----------------------------------------------------------------------------
 
-#if 0
-void* FTPClient::waitForMessage(void *ptr) {
-    pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-    try {
-	while(true) {
-	    std::cout << "Received in thread: ";
-	    std::cout << recvMessage();
-	}
-    }
-    catch(Exception ex) {
-  	std::cout << "killing thread";
-    }
-}
-#endif
 //-----------------------------------------------------------------------------
 char* FTPClient::recvMessage() {
     // std::cout << "recvMessage()" << std::endl;
@@ -237,19 +213,9 @@ char* FTPClient::recvMessage() {
         buffer_in[i] = '\0';
     }
 
-//////////////
-// Polling added by Jon, leaving old code just in case
-// This should read until there is nothing left
-
-    ufds.fd = clientSD;
-    ufds.events = POLLIN;
-    ufds.revents = 0; 
-    //int val = poll(&ufds,1,1000);
-
     while(1){
-        //std::cout << "val: " << val << std::endl; 
+        memset(buffer, '\0', BUFSIZE); //clear out buffer for next read 
         msg_size = read(clientSD, buffer, BUFSIZE);
-        //std::cout << "Buffer: " << buffer << std::endl; 
         if(msg_size > 0) {
            message.append(buffer);
         }
@@ -257,29 +223,7 @@ char* FTPClient::recvMessage() {
         if(buffer[msg_size-1] == '\n' && buffer[msg_size-2] == '\r'){
             break; 
         }
-
-        //int val = poll(&ufds,1,1000);
     }
-    // std::cout << "Message: " << message << std::endl; 
-///////////////////////
-
-/*
-    do {
-	    msg_size = read(clientSD, buffer, sizeof(buffer));
-	    std::cout << "Size: " << msg_size << std::endl;
- 	    std::cout << buffer_in << std::endl;
-
-//	}
-	   if(msg_size > 0) {
-	       message.append(buffer_in);
-           //std::cout << message << std::endl; 
-	   }
-	   else {
-	       break;
-	   }
-    } while(msg_size > 0);
-*/
-    //std::cout << "Just recieved " << message << std::endl;
 
     char error[] = "Error receiving message";
     if( msg_size > 0) {
@@ -289,50 +233,11 @@ char* FTPClient::recvMessage() {
 	    for(int i = msg_size - 1; i > msg_size - 3; i--)
 	        if(retMsg[i] == '\n' || retMsg[i] == '\r')
 		        retMsg[i] = '\0';
-    //std::cout << "retMsg:  " << retMsg << std::endl; 
 	    return retMsg;
     }
-    //else if (msg_size == 0)
 	return '\0';
-    //else throw (new Exception (error, RECV_EXCEPTION));
 }
 
-
-#if 0
-char* FTPClient::recvMessage() {
-    struct pollfd ufds;
-    bool receive = false; 
-    char recvBuf[2048];
-
-    ufds.fd = clientSD;
-    ufds.events = POLLIN;
-    ufds.revents = 0; 
-    int val = poll(&ufds,1,1000);
-
-    while(val < 0){
-        val = poll(&ufds,1,1000);
-        std::cout << "val: " << val << std::endl; 
-    }
-
-    std::cout << "recieving msg" << std::endl; 
-    //if(receive){
-        recvBytes = read(clientSD, recvBuf, 2047);
-    //}
-    //for(int i = 0; i == BUFSIZE; i++){
-        //cntlBuf[i] = 0;
-    //}
-    std::cout << "msg recieved: " << recvBuf << std::endl;
-
-    /*
-    do{/// isnt this about the same as polling?
-        recvBytes = read(clientSD, ctrlBuf, BUFSIZE);
-    }while(recvBytes == 0);
-    */
-    recvBuf[recvBytes] = 0;
-    std::cout << recvBuf << std::endl; 
-    return ctrlBuf;
-}
-#endif
 //-----------------------------------------------------------------------------
 int FTPClient::getPortFromPASV( char* buffer ) {
 
@@ -387,22 +292,14 @@ bool FTPClient::changeDir(char* dirName) {
 //-----------------------------------------------------------------------------
 //List command
 char* FTPClient::getCurrentDirContents() {
-
-    // std::cout << "\nConsider yourself STUBBED!! (getCurrentDirContents)";
-
     int code;
+    char* bufptr;
     char buffer[BUFSIZE];
-    char buffer2[BUFSIZE];
-    char buffer3[BUFSIZE];
     bzero(buffer, BUFSIZE);
-    bzero(buffer2, BUFSIZE);
-    bzero(buffer3, BUFSIZE);
-    char *temp;
 
     sendPASV();                 //get PASV connection setup with dataSD
 
     int tempSD = clientSD;      //save clientSD temporarily, we will need it
-
 
     strcpy(buffer, "LIST");                 //add LIST to buffer to be sent
 
@@ -410,40 +307,34 @@ char* FTPClient::getCurrentDirContents() {
     if(sendMessage(buffer) < 0) {
        perror("Can't send message\n");
         return NULL;
-    }    
+    }  
+
+    //Get message from server
+    bufptr = recvMessage();
+    std::cout << bufptr << std::endl;
 
 
-    clientSD = dataSD;                      //set clientSD to dataSD
+    //set clientSD to dataSD
+    clientSD = dataSD; 
 
-    strcpy( buffer, recvMessage() );        //get message on dataSD
+    //recieve data buffer from server
+    bufptr = recvMessage();
+    std::cout << bufptr << std::endl;
 
-    // std::cout << buffer;                    //output message
+    //set clientSD to itself again
+    clientSD = tempSD;   
 
+    //Recieve end of stream message
+    bufptr = recvMessage();  
+    std::cout << bufptr << std::endl;
 
-    //getReturnCode was freaking out, so i commented it out for now
-    // if(getReturnCode(buffer) != 257){
-    //     strcpy(buffer, "-- Error recieving directory contents!!");
-    // }
+    //close PASV connection
+    close( dataSD );                        
 
-    //std::cout << buffer << std::endl;
-    temp = (char*)malloc(strlen(buffer)+1);     //for being able to return char*
+    //return buffer with directory contents
+    return bufptr;
 
-    clientSD = tempSD;                      //set clientSD to itself again
-
-    strcpy( buffer2, recvMessage() );
-    strcpy( buffer3, recvMessage() );
-
-    close( dataSD );                        //close PASV connection
-    // strcpy( buffer2, recvMessage() );
-    // strcpy( buffer3, recvMessage() );
-
-    std::cout << buffer2 << std::endl;
-    std::cout << buffer << std::endl;
-    std::cout << buffer3 << std::endl;
-
-    return temp;
-
-} //returns buffer with directory contents
+}
 
 
 //-----------------------------------------------------------------------------
