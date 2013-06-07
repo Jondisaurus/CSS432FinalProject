@@ -3,6 +3,7 @@
 #include <sys/poll.h>
 #define BUFSIZE 8192
 
+//-----------------------------------------------------------------------------
 FTPClient::FTPClient() {
     clientSD = 0;
     char url[] = "ftp.tripod.com";
@@ -19,9 +20,11 @@ FTPClient::FTPClient() {
     exit(1);
 }
 
+//-----------------------------------------------------------------------------
 FTPClient::~FTPClient() {
 }
 
+//-----------------------------------------------------------------------------
 int FTPClient::open(char* hostName, int port) {
     //Setup
     char buffer_in[1450];
@@ -57,20 +60,23 @@ int FTPClient::open(char* hostName, int port) {
     return clientSD; //true if > 0
 }
 
-int FTPClient::close() {
-    std::cout << "\nConsider yourself STUBBED!! (close)";
-    //Close the connection o.o
-    return true;
-}
+// //-----------------------------------------------------------------------------
+// int FTPClient::close() {
+//     std::cout << "\nConsider yourself STUBBED!! (close)";
+//     //Close the connection o.o
+//     return true;
+// }
 
+//-----------------------------------------------------------------------------
 void FTPClient::quit() {
     std::cout << "\nConsider yourself STUBBED!! (quit)";
     //Close the connection, of course
-    close();
+    close(clientSD);
     //Quit the program, bro
     exit(1);
 }
 
+//-----------------------------------------------------------------------------
 int FTPClient::login(char *username, char *password) { 
     int code = sendUserName(username);
     //std::cout << "Code " << code << std::endl;
@@ -99,6 +105,7 @@ int FTPClient::login(char *username, char *password) {
     return code;
 }
 
+//-----------------------------------------------------------------------------
 //Returns 331 if successful
 int FTPClient::sendUserName(char* username) {
     //std::cout << "sendUserName()" << std::endl;
@@ -124,6 +131,7 @@ int FTPClient::sendUserName(char* username) {
     return getReturnCode(buffer);
 }
 
+//-----------------------------------------------------------------------------
 //get the first 3 chars from the received message and conver to an int
 int FTPClient::getReturnCode( char *message) {
     char temp[4];
@@ -135,6 +143,7 @@ int FTPClient::getReturnCode( char *message) {
     return atoi(temp);
 }
 
+//-----------------------------------------------------------------------------
 //Returns 230 if successful
 int FTPClient::sendPassword(char* password) {
     int code;
@@ -155,6 +164,7 @@ int FTPClient::sendMessage(){
     ctrlBuf[send_bytes] = 0
 }
 */
+//-----------------------------------------------------------------------------
 int FTPClient::sendMessage(char* buffer) {
 
     int send_length = strlen(buffer);
@@ -172,23 +182,29 @@ int FTPClient::sendMessage(char* buffer) {
     return size;
 }
 
+//-----------------------------------------------------------------------------
 int FTPClient::sendPASV(){
 
-    std::cout << "in sendPASV" << std::endl;
+    // std::cout << "in sendPASV" << std::endl;
 
-    char buffer[70];
-    bzero(buffer, 70 );
+    char buffer[70];                            //allocate buffer
+    bzero(buffer, 70 );                         //zero out buffer
 
-    sendMessage("PASV ");
-    strcpy( buffer, recvMessage() );
+    sendMessage("PASV ");                       //send the message PASV
+    strcpy( buffer, recvMessage() );            //receive reply
 
-    int port = getPortFromPASV( buffer );
+    int port = getPortFromPASV( buffer );           //get port # from reply
 
     std::cout << "port: " << port << std::endl;
 
+    char url[] = "ftp.tripod.com";              //set the url to connect to
+
+    serverSock = new Socket(port);              //new socket with new port #
+    dataSD = serverSock->getClientSocket(url);  //new data socket
+
     return 0;
 }
-
+//-----------------------------------------------------------------------------
 
 #if 0
 void* FTPClient::waitForMessage(void *ptr) {
@@ -204,8 +220,9 @@ void* FTPClient::waitForMessage(void *ptr) {
     }
 }
 #endif
+//-----------------------------------------------------------------------------
 char* FTPClient::recvMessage() {
-    //std::cout << "recvMessage()" << std::endl;
+    // std::cout << "recvMessage()" << std::endl;
     struct pollfd ufds;
     char *buffer;
     buffer = new char[BUFSIZE];
@@ -243,7 +260,7 @@ char* FTPClient::recvMessage() {
 
         //int val = poll(&ufds,1,1000);
     }
-    std::cout << "Message: " << message << std::endl; 
+    // std::cout << "Message: " << message << std::endl; 
 ///////////////////////
 
 /*
@@ -316,15 +333,20 @@ char* FTPClient::recvMessage() {
     return ctrlBuf;
 }
 #endif
-
+//-----------------------------------------------------------------------------
 int FTPClient::getPortFromPASV( char* buffer ) {
 
-    // std::cout << "in getPortFromPASV" << std::endl;
+    std::cout << "in getPortFromPASV" << std::endl;
 
-    // std::cout << buffer << std::endl;
+    std::cout << buffer << std::endl;
     int address[6];
+
+    for(int i=0; i<6; i++)
+        address[i] = 0;
+
     char tempBuf[4];
     bzero(tempBuf, 6);
+
     char tempChar;
     int j = 0,k = 0;
 
@@ -356,38 +378,85 @@ int FTPClient::getPortFromPASV( char* buffer ) {
     return port;
 }
 
+//-----------------------------------------------------------------------------
 bool FTPClient::changeDir(char* dirName) {
     std::cout << "\nConsider yourself STUBBED!! (changeDir)";
     return true;
 }
+
+//-----------------------------------------------------------------------------
+//List command
 char* FTPClient::getCurrentDirContents() {
+
+    // std::cout << "\nConsider yourself STUBBED!! (getCurrentDirContents)";
 
     int code;
     char buffer[BUFSIZE];
-    strcpy(buffer, "PWD ");
-    strcat(buffer, password);
+    char buffer2[BUFSIZE];
+    char buffer3[BUFSIZE];
+    bzero(buffer, BUFSIZE);
+    bzero(buffer2, BUFSIZE);
+    bzero(buffer3, BUFSIZE);
+    char *temp;
+
+    sendPASV();                 //get PASV connection setup with dataSD
+
+    int tempSD = clientSD;      //save clientSD temporarily, we will need it
+
+
+    strcpy(buffer, "LIST");                 //add LIST to buffer to be sent
+
+    //send LIST, output error if there was one, message sent on clientSD
     if(sendMessage(buffer) < 0) {
        perror("Can't send message\n");
         return NULL;
     }    
-    strcpy(buffer, recvMessage());
 
-    if(getReturnCode(buffer) != 257){
-        strcpy(buffer, "-- Error recieving directory contents!!");
-    }
+
+    clientSD = dataSD;                      //set clientSD to dataSD
+
+    strcpy( buffer, recvMessage() );        //get message on dataSD
+
+    // std::cout << buffer;                    //output message
+
+
+    //getReturnCode was freaking out, so i commented it out for now
+    // if(getReturnCode(buffer) != 257){
+    //     strcpy(buffer, "-- Error recieving directory contents!!");
+    // }
+
     //std::cout << buffer << std::endl;
-    return buffer;
+    temp = (char*)malloc(strlen(buffer)+1);     //for being able to return char*
 
-    sendPASV();
+    clientSD = tempSD;                      //set clientSD to itself again
+
+    strcpy( buffer2, recvMessage() );
+    strcpy( buffer3, recvMessage() );
+
+    close( dataSD );                        //close PASV connection
+    // strcpy( buffer2, recvMessage() );
+    // strcpy( buffer3, recvMessage() );
+
+    std::cout << buffer2 << std::endl;
+    std::cout << buffer << std::endl;
+    std::cout << buffer3 << std::endl;
+
+    return temp;
+
 } //returns buffer with directory contents
+
+
+//-----------------------------------------------------------------------------
 bool FTPClient::getFile(char* fileName) {
     std::cout << "\nConsider yourself STUBBED!! (getFile)";
     return true;
 }
+//-----------------------------------------------------------------------------
 bool FTPClient::putFile(char* fileName) {
     std::cout << "\nConsider yourself STUBBED!! (putFile)";
     return true;
 }
+//-----------------------------------------------------------------------------
 bool FTPClient::listDir( char* pathname ) {
     std::cout << "\nConsider yourself STUBBED!! (listDir)";
     sendPASV();

@@ -7,7 +7,7 @@
 char** userInput;
 int inputSize = 0; 
 
-
+//-----------------------------------------------------------------------------
 ///This function presents the user with a command line then stores the
 // results in char** userInput as indiviual tokens. the number of tokens is
 // given by the global variable inputSize.
@@ -35,6 +35,7 @@ char** getUserInput() {
     return userInput;
 }
 
+//-----------------------------------------------------------------------------
 void getUserCredentials(char*& userName, char*& password) {
 #if 0
     //Get User/Pass
@@ -46,11 +47,12 @@ void getUserCredentials(char*& userName, char*& password) {
     std::cin >> password;
 #endif
 }
-
+//-----------------------------------------------------------------------------
 void outputHelp() {
     std::cout << "this is a stub :< (outputHelp)";
 }
 
+//-----------------------------------------------------------------------------
 int main( int argc, char* argv[] ) {
 
     FTPClient* client = new FTPClient();
@@ -65,18 +67,20 @@ int main( int argc, char* argv[] ) {
         if(!strcmp(userInput[0], "cd")){
             client->changeDir(userInput[1]);
         }else if(!strcmp(userInput[0], "ls")){
-            std::cout << client->getCurrentDirContents() << std::endl;
+            // std::cout << client->getCurrentDirContents() << std::endl;
+            client->getCurrentDirContents();
         }else if(!strcmp(userInput[0], "get")){
             client->getFile(userInput[0]);
         }else if(!strcmp(userInput[0], "put")){
             client->putFile(userInput[0]);
         }else if(!strcmp(userInput[0], "close")){
-            client->close();
+            // client->close();
+            client->quit();
         }else if(!strcmp(userInput[0], "exit")){
             client->quit();
         }else if(!strcmp(userInput[0], "quit")){
             client->quit();
-        }else if(strcmp(userInput[0], "help") || strcmp(userInput[0], "?")){
+        }else if(!strcmp(userInput[0], "help") || !strcmp(userInput[0], "?")){
             outputHelp(); 
         }else{
             std::cout << "\nINVALID COMMAND - Please re-enter or type (?)" << std::endl;

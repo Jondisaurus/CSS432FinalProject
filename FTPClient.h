@@ -13,7 +13,7 @@ public:
     ~FTPClient();
 
     int open(char* hostName, int port); //open a TCP connection to port
-    int close();
+    // int close();
     void quit();
     int login(char *username, char* password);
     int sendUserName(char* nameToSend);
@@ -39,6 +39,7 @@ private:
     int dataSD;
     int recvBytes; 
     Socket* sock;
+    Socket* serverSock;
     char ctrlBuf[BUFSIZE + 1];
     char dataBuf[BUFSIZE + 1];
 };
