@@ -25,12 +25,13 @@ public:
     //int recvCommand();
     int sendPassword(char* passToSend);
     int sendPASV();
+    int sendSYST();
     int getPortFromPASV(char* );
     bool changeDir(char* dirName);
     char* getCurrentDirContents(); //returns buffer with directory contents
     bool getFile(char* fileName);
     bool putFile(char* fileName);
-    bool listDir(char*  pathname);
+    bool listDir(char* pathname);
     int getReturnCode(char *message);
 private:
     char* userName;

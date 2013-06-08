@@ -23,7 +23,7 @@ char** getUserInput() {
     inputSize = 0;
     memset(input, '\0', sizeof(input));
 
-    std::cout << "\nftp> ";
+    std::cout << "ftp> ";
     std::cin.getline(input, CHAR_SIZE, '\n');
 
     userInput[inputSize] = strtok(input, " ");
@@ -70,9 +70,10 @@ int main( int argc, char* argv[] ) {
             // std::cout << client->getCurrentDirContents() << std::endl;
             client->getCurrentDirContents();
         }else if(!strcmp(userInput[0], "get")){
-            client->getFile(userInput[0]);
+            // std::cout << "userIn: " << userInput[1] << std::endl;
+            client->getFile(userInput[1]);
         }else if(!strcmp(userInput[0], "put")){
-            client->putFile(userInput[0]);
+            client->putFile(userInput[1]);
         }else if(!strcmp(userInput[0], "close")){
             // client->close();
             client->quit();
