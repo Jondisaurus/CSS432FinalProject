@@ -5,11 +5,14 @@
 #include <string>
 #include "Exception.h"
 #include <fstream>
+#include <unistd.h>
+#include <stdio.h>
 
 #define BUFSIZE 8192
 class FTPClient {
 public:
     FTPClient();
+    FTPClient(char*, char*);
     ~FTPClient();
 
     int open_connection(char* hostName, int port); //open a TCP connection to port

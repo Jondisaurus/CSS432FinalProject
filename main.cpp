@@ -6,6 +6,7 @@
 
 char** userInput;
 int inputSize = 0; 
+char* serverIP;
 
 //-----------------------------------------------------------------------------
 ///This function presents the user with a command line then stores the
@@ -36,30 +37,46 @@ char** getUserInput() {
 }
 
 //-----------------------------------------------------------------------------
-void getUserCredentials(char*& userName, char*& password) {
-#if 0
-    //Get User/Pass
-    std::cout << "\nTo login please enter your...";
-    std::cout << "\nUsername: ";
-    std::cin >> userName;
+void getUserCredentials(/*char*& userName, char*& password*/) {
 
-    std::cout << "\nPassword: ";
-    std::cin >> password;
-#endif
+    //Get User/Pass
+    // std::cout << "\nTo login please enter your...";
+    // std::cout << "\nUsername: ";
+    // std::cin >> userName;
+
+    // std::cout << "\nPassword: ";
+    // std::cin >> password;
+    std::string userString( getlogin() );
+    std::cout << "Name (" << serverIP << ":" << userString << "): " << std::endl;
+
+
 }
 //-----------------------------------------------------------------------------
 void outputHelp() {
-    std::cout << "this is a stub :< (outputHelp)";
+    std::cout << "Wrong usage! Please use like this: " << std::endl;
+    std::cout << "./ftp hostName" << std::endl;
 }
 
 //-----------------------------------------------------------------------------
+// run with ./ftp ftp.tripod.com
 int main( int argc, char* argv[] ) {
 
-    FTPClient* client = new FTPClient();
-    // std::cout << "ftp client created" << std::endl;
+    if(argc > 1)
+        serverIP = argv[1];
+    else {
+        outputHelp();
+        return 0;
+    }
+
     char* userName = new char[CHAR_SIZE];
     char* password = new char[CHAR_SIZE];
     char* dirName = new char[CHAR_SIZE];
+
+    getUserCredentials();
+
+    FTPClient* client = new FTPClient();
+    // std::cout << "ftp client created" << std::endl;
+    
 
     while(1){
         getUserInput();
@@ -88,4 +105,5 @@ int main( int argc, char* argv[] ) {
         }
 
     }
+    return 0;
 }
