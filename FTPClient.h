@@ -12,7 +12,7 @@ public:
     FTPClient();
     ~FTPClient();
 
-    int open(char* hostName, int port); //open a TCP connection to port
+    int open_connection(char* hostName, int port); //open a TCP connection to port
     // int close();
     void quit();
     int login(char *username, char* password);
@@ -29,10 +29,14 @@ public:
     int getPortFromPASV(char* );
     bool changeDir(char* dirName);
     char* getCurrentDirContents(); //returns buffer with directory contents
-    bool getFile(char* fileName);
+    //int getFile(char* filename, char* localpath);
+    int downloadFile(char *filename);
     bool putFile(char* fileName);
     bool listDir(char* pathname);
+    char *getFileName(char *filepath);
     int getReturnCode(char *message);
+double time_diff(struct timeval x, struct timeval y);
+    int getMessageSize(char *msg);
 private:
     char* userName;
     char* password;

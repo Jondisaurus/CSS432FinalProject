@@ -71,7 +71,7 @@ int main( int argc, char* argv[] ) {
             client->getCurrentDirContents();
         }else if(!strcmp(userInput[0], "get")){
             // std::cout << "userIn: " << userInput[1] << std::endl;
-            client->getFile(userInput[1]);
+            client->downloadFile(userInput[1]);
         }else if(!strcmp(userInput[0], "put")){
             client->putFile(userInput[1]);
         }else if(!strcmp(userInput[0], "close")){
