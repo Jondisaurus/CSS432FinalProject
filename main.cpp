@@ -79,7 +79,7 @@ int main( int argc, char* argv[] ) {
     getUserInput();
     client->sendPassword(userInput[0]);
 
-    //prompt << "ftp> ";
+    prompt << "ftp> ";
 
     while(1){
         getUserInput();
@@ -99,6 +99,8 @@ int main( int argc, char* argv[] ) {
             client->putFile(userInput[1]);
         else if(!strcmp(userInput[0], "close"))
             client->quit();
+        else if(!strcmp(userInput[0], "mkdir"))
+            client->makeDir(userInput[1]);
         else if(!strcmp(userInput[0], "rename"))
             client->renameFile(userInput[1], userInput[2]);
         else if(!strcmp(userInput[0], "exit"))

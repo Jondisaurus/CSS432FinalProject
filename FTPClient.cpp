@@ -664,6 +664,29 @@ bool FTPClient::renameFile(char* oldFilename, char* newFilename){
 
     return true;
 }
+bool FTPClient::makeDir(char* dirName){
+    
+    int code;
+    char* msgptr; 
+    char buffer[BUFSIZE];
+
+    //add MKD to buffer to be sent
+    strcpy(buffer, "MKD ");  
+    if(dirName != NULL) 
+        strcat(buffer, dirName);
+
+    //send MKD, output error if there was one, message sent on clientSD
+    if(sendMessage(buffer) < 0) {
+       perror("Can't send message\n");
+        return false;
+    }  
+
+    //Get message from server
+    msgptr = recvMessage();
+    std::cout << msgptr << std::endl;
+
+    return true;
+}
 
 
 

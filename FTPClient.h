@@ -41,6 +41,7 @@ public:
     double time_diff(struct timeval x, struct timeval y);
     int getMessageSize(char *msg);
     bool renameFile(char* oldFilename, char* newFilename);
+    bool makeDir(char* dirName);
 
 private:
     int clientSD;
