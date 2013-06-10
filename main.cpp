@@ -1,30 +1,33 @@
 #include "FTPClient.h"
 #include <iostream>
 #include <fstream>
+#include <stdio.h>
+#include <unistd.h>
+#include <sstream>
+#include <string>
 #define CHAR_SIZE 1000
 #define MAX_FTP_ARGS 10
 
 char** userInput;
 int inputSize = 0; 
 char* serverIP;
-
+std::stringstream prompt;
 //-----------------------------------------------------------------------------
 ///This function presents the user with a command line then stores the
 // results in char** userInput as indiviual tokens. the number of tokens is
 // given by the global variable inputSize.
 char** getUserInput() {
-    // std::cout << "get user input!!" << std::endl;
-
     if(userInput){
         delete userInput; 
     }
     userInput = new char*;
     char* temp;
     char input[CHAR_SIZE];
+
     inputSize = 0;
     memset(input, '\0', sizeof(input));
 
-    std::cout << "ftp> ";
+    std::cout << prompt.str();
     std::cin.getline(input, CHAR_SIZE, '\n');
 
     userInput[inputSize] = strtok(input, " ");
@@ -36,74 +39,53 @@ char** getUserInput() {
     return userInput;
 }
 
-//-----------------------------------------------------------------------------
-void getUserCredentials(/*char*& userName, char*& password*/) {
 
-    //Get User/Pass
-    // std::cout << "\nTo login please enter your...";
-    // std::cout << "\nUsername: ";
-    // std::cin >> userName;
-
-    // std::cout << "\nPassword: ";
-    // std::cin >> password;
-    std::string userString( getlogin() );
-    std::cout << "Name (" << serverIP << ":" << userString << "): " << std::endl;
-
-
-}
 //-----------------------------------------------------------------------------
 void outputHelp() {
     std::cout << "Wrong usage! Please use like this: " << std::endl;
-    std::cout << "./ftp hostName" << std::endl;
+    std::cout << "./ftp hostName username password" << std::endl;
 }
 
 //-----------------------------------------------------------------------------
 // run with ./ftp ftp.tripod.com
 int main( int argc, char* argv[] ) {
 
-    if(argc > 1)
-        serverIP = argv[1];
-    else {
-        outputHelp();
-        return 0;
-    }
-
-    char* userName = new char[CHAR_SIZE];
-    char* password = new char[CHAR_SIZE];
-    char* dirName = new char[CHAR_SIZE];
-
-    getUserCredentials();
-
-    FTPClient* client = new FTPClient();
-    // std::cout << "ftp client created" << std::endl;
+    FTPClient* client = (argc > 3) ? new FTPClient(argv[1], argv[2], argv[3]) :
+                     new FTPClient();
+    serverIP = client->getServerIP();
+    prompt << "Name (" << serverIP << ":" << getlogin() << "):";
     
-
     while(1){
         getUserInput();
 
-        if(!strcmp(userInput[0], "cd")){
+        if(!strcmp(userInput[0], "cd"))
             client->changeDir(userInput[1]);
-        }else if(!strcmp(userInput[0], "ls")){
-            // std::cout << client->getCurrentDirContents() << std::endl;
+    else if(!strcmp(userInput[0], "open")) {
+        //XXX 21 should be taken from command line too
+        *client->open_connection(userInput[1], 21);
+        prompt << serverIP;
+    }
+    else if(!strcmp(userInput[0], "ls"))
             client->getCurrentDirContents();
-        }else if(!strcmp(userInput[0], "get")){
-            // std::cout << "userIn: " << userInput[1] << std::endl;
+        else if(!strcmp(userInput[0], "get"))
             client->downloadFile(userInput[1]);
-        }else if(!strcmp(userInput[0], "put")){
+        else if(!strcmp(userInput[0], "put"))
             client->putFile(userInput[1]);
-        }else if(!strcmp(userInput[0], "close")){
-            // client->close();
+        else if(!strcmp(userInput[0], "close"))
             client->quit();
-        }else if(!strcmp(userInput[0], "exit")){
+        else if(!strcmp(userInput[0], "exit"))
             client->quit();
-        }else if(!strcmp(userInput[0], "quit")){
+        else if(!strcmp(userInput[0], "quit"))
             client->quit();
-        }else if(!strcmp(userInput[0], "help") || !strcmp(userInput[0], "?")){
+        else if(!strcmp(userInput[0], "name"))
+        client->sendUserName(userInput[1]);
+    else if(!strcmp(userInput[0], "password"))
+        client->sendPassword(userInput[1]);
+        else if(!strcmp(userInput[0], "help") || !strcmp(userInput[0], "?"))
             outputHelp(); 
-        }else{
+        else
             std::cout << "\nINVALID COMMAND - Please re-enter or type (?)" << std::endl;
-        }
-
+        
     }
     return 0;
 }

@@ -12,49 +12,40 @@ using namespace std;
 //-----------------------------------------------------------------------------
 FTPClient::FTPClient() {
     clientSD = 0;
-    char url[] = "ftp.tripod.com";
-    char username[] = "css432";
-    char password[] = "UWB0th3ll";
-    while(open_connection(url, 21) == 0){
-       std::cout << "Cant connect\n";
-    }
-    int code = login(username, password);
-    // if(code == 230)
-        // std::cout << "FTP>\tClient logged in" << std::endl;
-    // else
-    //std::cout << "Code was: " << code << std::endl;
-    // exit(1);
+    dataSD = 0;
+    recvBytes = 0;
 }
 
 //-----------------------------------------------------------------------------
-FTPClient::FTPClient(char* user, char* pass) {
+FTPClient::FTPClient(char* url, char* user, char* pass) {
     clientSD = 0;
-    char url[] = "ftp.tripod.com";
-    char* username = user;
-    char* password = pass;
-    while(open_connection(url, 21) == 0){
-       std::cout << "Cant connect\n";
+    dataSD = 0;
+    recvBytes = 0;
+    while(open_connection(url, 21) == NULL){
+       std::cout << "Cant connect. Reenter url";
+       cin >> url;
     }
-    int code = login(username, password);
-    // if(code == 230)
-        // std::cout << "FTP>\tClient logged in" << std::endl;
-    // else
-    //std::cout << "Code was: " << code << std::endl;
-    // exit(1);
+    login(user, pass);
 }
 
 //-----------------------------------------------------------------------------
 FTPClient::~FTPClient() {
 }
-
+//XXX: I dont care about memory leaks at aaaaaaaaalllllllll
 //-----------------------------------------------------------------------------
-int FTPClient::open_connection(char* hostName, int port) {
+char** FTPClient::open_connection(char* hostName, int port) {
+    //XXX: I ccant figure out how to pass this url >_< Any help?
+    hostName = "ftp.tripod.com";
+    int i = strlen(hostName);
+    char* ret = (char*)malloc(i * sizeof(char));
+    memcpy(ret, hostName, sizeof(hostName));
     //Setup
     char buffer_in[1450];
     bzero(buffer_in,1450);
-
+    sock = NULL;
     // Attempt to connect to server
     sock = new Socket(port);
+    cout << hex<<  *hostName<< sock << endl;
     clientSD = sock->getClientSocket(hostName);
     strcpy( buffer_in, recvMessage() );
     std::cout << buffer_in << std::endl;
@@ -62,20 +53,16 @@ int FTPClient::open_connection(char* hostName, int port) {
        std::cout << "Incorrect hostname and port: Enter new one" <<  std::endl;
        strcpy( buffer_in, recvMessage() );
     }
- 
-    return clientSD; //true if > 0
+    return &ret;
 }
 
-// //-----------------------------------------------------------------------------
-// int FTPClient::close() {
-//     std::cout << "\nConsider yourself STUBBED!! (close)";
-//     //Close the connection o.o
-//     return true;
-// }
+ //-----------------------------------------------------------------------------
+void FTPClient::close_connection() {
+    close(clientSD);
+}
 
 //-----------------------------------------------------------------------------
 void FTPClient::quit() {
-    std::cout << "Consider yourself STUBBED!! (quit)"<< std::endl;
     close(clientSD);
     exit(1);
 }
@@ -93,15 +80,15 @@ int FTPClient::login(char *username, char *password) {
     do {
         code = sendUserName(username);
         if(code != 331) {
-        cout << "Incorrect username. Reenter:";
-        cin >> username;
+            cout << "Incorrect username. Reenter:";
+            cin >> username;
         }
 
         if((code = sendPassword(password)) == 230)
         break;
     
-    cout << "Incorrect password. Reenter:";
-    cin >> password;
+        cout << "Incorrect password. Reenter:";
+        cin >> password;
     } while (true);
 
     strcpy(buffer, recvMessage());
@@ -114,19 +101,19 @@ int FTPClient::login(char *username, char *password) {
 //Sends the mmessage "USER " and the username
 //-----------------------------------------------------------------------------
 int FTPClient::sendUserName(char* username) {
-    memset( ctrlBuf, '\0', sizeof( ctrlBuf ) );
     int code;
+    memset( ctrlBuf, '\0', sizeof( ctrlBuf ) );
     char buffer[100];
     strcpy(buffer, "USER ");
     strcat(buffer, username);
 
     if(sendMessage(buffer) < 0) {
-    perror("Can't send message\n");
-    return 1;
+        perror("Can't send message\n");
+        return 1;
     }
     
     strcpy(buffer, recvMessage());
-    cout << buffer << endl;
+    cout << buffer << endl; 
 
     return getReturnCode(buffer);
 }
@@ -164,13 +151,8 @@ int FTPClient::sendPassword(char* password) {
     return getReturnCode(buffer);
 }
 
-
-
 //-----------------------------------------------------------------------------
 int FTPClient::sendPASV(){
-
-    // std::cout << "in sendPASV" << std::endl;
-
     char buffer[70];                            //allocate buffer
     bzero(buffer, 70 );                         //zero out buffer
 
@@ -178,8 +160,6 @@ int FTPClient::sendPASV(){
     strcpy( buffer, recvMessage() );            //receive reply
 
     int port = getPortFromPASV( buffer );           //get port # from reply
-
-    // std::cout << "port: " << port << std::endl;
 
     char url[] = "ftp.tripod.com";              //set the url to connect to
 
@@ -217,7 +197,6 @@ int FTPClient::sendMessage(char* buffer) {
     return write(clientSD, message, message_length);
 }
 
-
 //-----------------------------------------------------------------------------
 char* FTPClient::recvMessage() {
     //Configure polling
@@ -239,35 +218,14 @@ char* FTPClient::recvMessage() {
         buffer_in[i] = '\0';
     }
 
-    //----------------
-    // if( poll(&ufds, 1, 1000) > 0 ) {
-    //     while(1){
-    //     //clean out buffer for next read
-    //         memset(buffer, '\0', BUFSIZE); 
-    //         msg_size = read(clientSD, buffer, BUFSIZE);
-    //     //got a message? save it
-    //         if(msg_size > 0) {
-    //             message.append(buffer);
-    //         //is this the end of your message?
-    //             if(buffer[msg_size-1] == '\n' && buffer[msg_size-2] == '\r')
-    //                 break; 
-    //         //Is your message empty?
-    //             if(buffer[0] == '\0')
-    //                 break;
-    //         }
-    //     }
-    // }
-    //-------------------
     val = poll(&ufds, 1, 1000);
     // cout << "ABOUT TO READ!! " << endl;
     int counter = 0;
 
     while(val > 0){
-    //clean out buffer for next read
         memset(buffer, '\0', BUFSIZE); 
         msg_size = read(clientSD, buffer, BUFSIZE);
-        // cout << "READ CHECK val: " << val  << " msgSize: " << msg_size << endl;
-    //got a message? save it
+        //got a message? save it
         if(msg_size > 0) {
             message.append(buffer);
         //is this the end of your message?
@@ -284,8 +242,6 @@ char* FTPClient::recvMessage() {
         counter++;
     }
   
-    // cout << "GOT HERE!" << endl;
-
     if( msg_size > 0) {
         retMsg = new char[message.length() + 1];
         strcpy(retMsg, message.c_str());
@@ -334,9 +290,6 @@ int FTPClient::getPortFromPASV( char* buffer ) {
         }
     }
 
-    // for( int i = 0; i < 6 ; i++ ) {
-    //     std::cout << i << ": " << address[i] << std::endl;
-    // }
     int port = address[4] * 256 + address[5];
 
     return port;
@@ -442,13 +395,9 @@ int FTPClient::downloadFile(char *filepath) {
     bzero(buffer, BUFSIZE);
     //XXX: This should read from the filepath itself!!!!
     string filename = string(filepath);
-
     //save clientSD temporarily, we will need it
     int tempSD = clientSD;
-
     cout << "local: " << filename << " remote: " << filename << endl;
-
-
     sendMessage("Type I");
     strcpy(typeBuffer, recvMessage());
     cout << typeBuffer << endl;
@@ -459,47 +408,23 @@ int FTPClient::downloadFile(char *filepath) {
         cout << "downloadFile() error" << endl;
         return code;
     }   
-    
     sendPASV();                     //set up passive connection
     char msg[2048];
     strcpy(msg, "RETR ");
     strcat(msg, filename.c_str());
     sendMessage(msg);               //send RETR with fileName
 
-
-
     strcpy(buffer, recvMessage());
     cout << buffer << endl;  //get 150 message or 550(no such file)
     code = getReturnCode(buffer);
     if(code == 550) {
-        // cout << "550 ERROR!!!!!!" << endl;
-        // clientSD = dataSD;
-        // cout << "??1: " << recvMessage() << endl;
         close(dataSD);
         clientSD = tempSD;          //set clientSD back to itself
-        // cout << "??2: " << recvMessage() << endl;
         return code;
     }
-
-    // cout << typeBuffer << endl;
-
-    // bzero(buffer, BUFSIZE);
-    // sendMessage("Type I");
-    // strcpy(buffer, recvMessage());
-    // cout << "SB TYPEI: " << buffer << endl;
-
-    // //check if we set the mode to Binary successfully(code 200)
-    // code = getReturnCode(buffer);
-    // if(code != 200) {
-    //     cout << "downloadFile() error" << endl;
-    //     return code;
-    // }   
-
     int size = 0, filesize = 0;
-    //setup file stream
+    //open file
     std::ofstream file(filename.c_str(), ios_base::out | ios::binary);
-
-    // cout << "get opened file" << endl;
 
     //set up time structure, and get start time
     struct timeval start;
@@ -510,42 +435,41 @@ int FTPClient::downloadFile(char *filepath) {
     ufds.fd = dataSD;
     ufds.events = POLLIN;
     ufds.revents = 0;
-
     
     int val = poll(&ufds, 1, 1000);
-    // cout << "poll val: " << val << endl;
+    //while something to read
     while(val > 0) {
-        // cout << "in get while! " << endl;
         memset(buffer, '\0', BUFSIZE);
         size = read(dataSD, buffer, BUFSIZE);
+    //something to read
         if(size > 0) {
             filesize += size;
             file.write(buffer, size);
         }
         else
             break;
+    //end of read?
         if(buffer[size-1] == '\n' && buffer[size-2]=='\r')
             break;
         if(buffer[0] == '\0')
             break;
         val = poll(&ufds, 1, 1000);
     }
-
+    //error
     if(filesize == 0) {
         cout << "get file size was 0!" << endl;
         file.close();
         close(dataSD);
         return 0;
     }
+    //start timer
     struct timeval end, diff;
     gettimeofday(&end, NULL); 
-
+    //restore connnection
     clientSD = tempSD;          //set clienSD back to itself
     file.close();               //close file stream
     close(dataSD);              //close data connection
-    // cout << recvMessage() << endl;      //get 150 message
     char *mess = recvMessage();         //get 226 message
-    //XXX: FIX THIS OBVIOUSLY WHAT THE FUCK IS WRONG WITH MEEEEEEE
     int total_bytes = getMessageSize(mess);     //get 226 message
     cout << mess << endl;               
 
@@ -556,60 +480,28 @@ int FTPClient::downloadFile(char *filepath) {
     return filesize;
 }
 
+//pull the message size in bytes from return message from server
 int FTPClient::getMessageSize(char *msg) {
     int start = 0, end = 0;
     char array[1000];
     //Get the index of (
-    //JUST ASSUME THE TEXT WILL BE IN THE PROPER FORMAT
     for(int i = 0; i < 5000; i++) {
         if(msg[i] == '(' ) {
             start = i;
             start++;
             end = start;
             while(msg[end] != ' ') {
-                //cout << msg[end] << endl;
                 end++;
             }
-        //cout << "SIZE" << start-end << endl;     
         }
-        // if(end != 0 ){
-
-        // }
     }
 
-//    cout << start << endl;
-//    cout << end << endl;
-//    array = (char*)calloc(sizeof(char), end-start);
-
-//    fora(int i = 0; i < start-end; i++)
-//  array[i] = msg[start+i];
     memcpy( array, msg+start, end-start );
-
-    // cout << "array: " << array << endl;
-    // cout << "atoi: " << atoi(array) << endl;
     return atoi(array);
 }
-        
-//      cout << "HERE IS THE FILE SIZE" << endl;}
-//      cout << vector << endl;
-//char temp[4];
-//if(message == NULL || strlen(message) <= 3)
-//      return 0;
-//for(int i = 0; i < 3; i++)
-//        temp[i] = message[i];
-//temp[3] = '\0';
-//return atoi(temp);
 
-//    for(; start <= end; start++) {
-//      cout << msg[start];
-//      }
-//      cout << endl;
-//      break;
-//  }
-//    }
-//    return 1;//atoi(temp);
-//}
 
+//get total time taken 
 double FTPClient::time_diff(struct timeval x, struct timeval y) {
     double x_ms, y_ms, diff;
     x_ms = (double)x.tv_sec*1000000 + (double)x.tv_usec;
@@ -639,46 +531,19 @@ bool FTPClient::putFile(char* fileName) {
     int tempSD = clientSD;
 
     cout << "local: " << filename << " remote: " << filename << endl;
-    // sendMessage("Type I");
-    // strcpy(buffer, recvMessage());
-    // cout << buffer << endl;
-    // code = getReturnCode(buffer);
-    // if(code != 200) {
-    //     cout << "put() error" << endl;
-    //     return code;
-    // }   
-    
-    // sendPASV();                     //setup passive connection
-    // char msg[2048];                 //
-    // strcpy(msg, "STOR ");           //
-    // strcat(msg, filename.c_str());  //
-    // sendMessage(msg);               //send message STOR and fileName
-
-    // cout << recvMessage() << endl;  //get 150 message or 550(no such file)
 
     FILE *file;
     int file_size;
-    // cout << "opening " << filename.c_str() << endl;
     file = fopen(filename.c_str(), "rb");
-
-    // bzero(fileBuffer, BUFSIZE);         //clear out the buffer
-
     if(file) {
-        // cout << "file opened in put!! " << endl;
         file_size = fread(fileBuffer, BUFSIZE, 1, file);
     }
     else {
         cout << "local: " << filename.c_str() << ": No such file or directory\n";
         clientSD = tempSD;
-        // recvMessage();
-        // close(dataSD);
-        // recvMessage();
-        // fclose(file);
         return 0;
     }
-
-    // cout << "fileSize: " << file_size << endl;
-
+    //set up binary
     sendMessage("Type I");
     strcpy(buffer, recvMessage());
     cout << buffer << endl;
@@ -687,16 +552,14 @@ bool FTPClient::putFile(char* fileName) {
         cout << "put() error" << endl;
         return code;
     }   
-
+    //set up data connection
     sendPASV();                     //setup passive connection
     char msg[2048];                 //
     strcpy(msg, "STOR ");           //
     strcat(msg, filename.c_str());  //
     sendMessage(msg);               //send message STOR and fileName
-
+    //retrive response confirmation 
     cout << recvMessage() << endl;  //get 150 message or 550(no such file)
-
-    // cout << "sending the following data"<< endl << fileBuffer << endl;
     clientSD = dataSD;
     struct timeval start, end, diff;
     gettimeofday(&start, NULL);
@@ -706,9 +569,7 @@ bool FTPClient::putFile(char* fileName) {
     clientSD = tempSD;
     fclose(file);
     close(dataSD);
-    // cout << recvMessage() << endl;
- 
-
+    //download
     char *mess = recvMessage();             //get 226 message with (xx bytes sent)
     int total_bytes = getMessageSize(mess);
     cout << mess << endl;

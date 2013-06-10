@@ -12,11 +12,10 @@
 class FTPClient {
 public:
     FTPClient();
-    FTPClient(char*, char*);
+    FTPClient(char*, char*, char*);
     ~FTPClient();
-
-    int open_connection(char* hostName, int port); //open a TCP connection to port
-    // int close();
+    char** open_connection(char* hostName, int port); //open a TCP connection to port
+    void close_connection();
     void quit();
     int login(char *username, char* password);
     int sendUserName(char* nameToSend);
@@ -38,11 +37,10 @@ public:
     bool listDir(char* pathname);
     char *getFileName(char *filepath);
     int getReturnCode(char *message);
-double time_diff(struct timeval x, struct timeval y);
+    double time_diff(struct timeval x, struct timeval y);
     int getMessageSize(char *msg);
+
 private:
-    char* userName;
-    char* password;
     int clientSD;
     int dataSD;
     int recvBytes; 
