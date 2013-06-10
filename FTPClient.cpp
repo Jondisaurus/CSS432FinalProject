@@ -428,7 +428,7 @@ char* FTPClient::getCurrentDirContents() {
 }
 
 //-----------------------------------------------------------------------------
-// get command
+//Get command
 int FTPClient::downloadFile(char *filepath) {
     mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
     int code;
@@ -524,6 +524,7 @@ int FTPClient::downloadFile(char *filepath) {
     return filesize;
 }
 
+//-----------------------------------------------------------------------------
 //pull the message size in bytes from return message from server
 int FTPClient::getMessageSize(char *msg) {
     int start = 0, end = 0;
@@ -544,7 +545,7 @@ int FTPClient::getMessageSize(char *msg) {
     return atoi(array);
 }
 
-
+//-----------------------------------------------------------------------------
 //get total time taken 
 double FTPClient::time_diff(struct timeval x, struct timeval y) {
     double x_ms, y_ms, diff;
@@ -623,7 +624,8 @@ bool FTPClient::putFile(char* fileName) {
     return file_size;
 }
 
-
+//-----------------------------------------------------------------------------
+//Rename command
 bool FTPClient::renameFile(char* oldFilename, char* newFilename){
 
     std::cout << "got to rename\n";
@@ -631,12 +633,12 @@ bool FTPClient::renameFile(char* oldFilename, char* newFilename){
     char* msgptr; 
     char buffer[BUFSIZE];
 
-    //add CWD to buffer to be sent
+    //add file name to be changed to send buffer
     strcpy(buffer, "RNFR ");  
     if(oldFilename != NULL) 
         strcat(buffer, oldFilename);
 
-    //send CWD, output error if there was one, message sent on clientSD
+    //send RNFR, output error if there was one, message sent on clientSD
     if(sendMessage(buffer) < 0) {
        perror("Can't send message\n");
         return false;
@@ -645,12 +647,12 @@ bool FTPClient::renameFile(char* oldFilename, char* newFilename){
     msgptr = recvMessage();
     std::cout << msgptr << std::endl;
 
-
+    //fill buffer with RNTO and filename to change to
     strcpy(buffer, "RNTO ");  
     if(newFilename != NULL) 
         strcat(buffer, newFilename);
 
-    //send CWD, output error if there was one, message sent on clientSD
+    //send RNTO, output error if there was one, message sent on clientSD
     if(sendMessage(buffer) < 0) {
        perror("Can't send message\n");
         return false;
