@@ -13,11 +13,15 @@ class FTPClient {
 public:
     FTPClient();
     FTPClient(char*, char*, char*);
+    FTPClient(char* );
     ~FTPClient();
-    char** open_connection(char* hostName, int port); //open a TCP connection to port
+    // char** open_connection(char* hostName, int port); //open a TCP connection to port
+    int open_connection(char* hostName, int port);
     void close_connection();
     void quit();
     int login(char *username, char* password);
+    int getUserName();
+    int getPassword();
     int sendUserName(char* nameToSend);
     //int sendMessage(); 
     int sendMessage(char *buffer);

@@ -11,6 +11,8 @@
 char** userInput;
 int inputSize = 0; 
 char* serverIP;
+// char username[1000];
+// char password[1000];
 std::stringstream prompt;
 //-----------------------------------------------------------------------------
 ///This function presents the user with a command line then stores the
@@ -50,11 +52,33 @@ void outputHelp() {
 // run with ./ftp ftp.tripod.com
 int main( int argc, char* argv[] ) {
 
-    FTPClient* client = (argc > 3) ? new FTPClient(argv[1], argv[2], argv[3]) :
-                     new FTPClient();
-    serverIP = client->getServerIP();
-    prompt << "Name (" << serverIP << ":" << getlogin() << "):";
-    
+    //=================
+    // FTPClient* client = (argc > 3) ? new FTPClient(argv[1], argv[2], argv[3]) :
+                     // new FTPClient();
+    //==================
+    //serverIP = client->getServerIP();
+    //prompt << "Name" << getlogin() << "):";
+    // prompt << "Name) ";
+    if(argc > 1)
+        serverIP = argv[1];
+    else {
+        outputHelp();
+        return 0;
+    }
+
+    FTPClient* client = new FTPClient(argv[1]);
+
+    std::string userString( getlogin() );
+    std::cout << "Name (" << serverIP << ":" << userString << "): ";
+    getUserInput();
+
+    client->sendUserName(userInput[0]);
+    std::cout << "Password: ";
+    getUserInput();
+    client->sendPassword(userInput[0]);
+
+     prompt << "ftp> ";
+
     while(1){
         getUserInput();
 
@@ -62,7 +86,7 @@ int main( int argc, char* argv[] ) {
             client->changeDir(userInput[1]);
     else if(!strcmp(userInput[0], "open")) {
         //XXX 21 should be taken from command line too
-        *client->open_connection(userInput[1], 21);
+        client->open_connection(userInput[1], 21);
         prompt << serverIP;
     }
     else if(!strcmp(userInput[0], "ls"))

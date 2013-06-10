@@ -9,6 +9,8 @@
 #define BUFSIZE 8192
 
 using namespace std;
+
+// char* ret;
 //-----------------------------------------------------------------------------
 FTPClient::FTPClient() {
     clientSD = 0;
@@ -21,7 +23,7 @@ FTPClient::FTPClient(char* url, char* user, char* pass) {
     clientSD = 0;
     dataSD = 0;
     recvBytes = 0;
-    while(open_connection(url, 21) == NULL){
+    while(open_connection(url, 21) <= 0){
        std::cout << "Cant connect. Reenter url";
        cin >> url;
     }
@@ -29,23 +31,53 @@ FTPClient::FTPClient(char* url, char* user, char* pass) {
 }
 
 //-----------------------------------------------------------------------------
+FTPClient::FTPClient(char* url ) {
+    clientSD = 0;
+    dataSD = 0;
+    recvBytes = 0;
+    while(open_connection(url, 21) <= 0){
+       std::cout << "Cant connect. Reenter url";
+       cin >> url;
+    }
+    // login(user, pass);
+}
+
+//-----------------------------------------------------------------------------
 FTPClient::~FTPClient() {
 }
 //XXX: I dont care about memory leaks at aaaaaaaaalllllllll
 //-----------------------------------------------------------------------------
-char** FTPClient::open_connection(char* hostName, int port) {
-    //XXX: I ccant figure out how to pass this url >_< Any help?
-    hostName = "ftp.tripod.com";
-    int i = strlen(hostName);
-    char* ret = (char*)malloc(i * sizeof(char));
-    memcpy(ret, hostName, sizeof(hostName));
-    //Setup
+// char** FTPClient::open_connection(char* hostName, int port) {
+//     //XXX: I ccant figure out how to pass this url >_< Any help?
+//     // hostName = "ftp.tripod.com";
+//     int i = strlen(hostName);
+//     ret = (char*)malloc(i * sizeof(char));
+//     memcpy(ret, hostName, sizeof(hostName));
+//     //Setup
+//     char buffer_in[1450];
+//     bzero(buffer_in,1450);
+//     sock = NULL;
+//     // Attempt to connect to server
+//     sock = new Socket(port);
+//     //cout << hex<<  *hostName<< sock << endl;
+//     clientSD = sock->getClientSocket(hostName);
+//     strcpy( buffer_in, recvMessage() );
+//     std::cout << buffer_in << std::endl;
+//     while(getReturnCode(buffer_in) != 220) {
+//        std::cout << "Incorrect hostname and port: Enter new one" <<  std::endl;
+//        strcpy( buffer_in, recvMessage() );
+//     }
+//     return &ret;
+// }
+
+int FTPClient::open_connection(char* hostName, int port) {
+    // cout << "in open connection" << endl;
+    // Setup
     char buffer_in[1450];
     bzero(buffer_in,1450);
-    sock = NULL;
-    // Attempt to connect to server
+
+     // Attempt to connect to server
     sock = new Socket(port);
-    cout << hex<<  *hostName<< sock << endl;
     clientSD = sock->getClientSocket(hostName);
     strcpy( buffer_in, recvMessage() );
     std::cout << buffer_in << std::endl;
@@ -53,7 +85,8 @@ char** FTPClient::open_connection(char* hostName, int port) {
        std::cout << "Incorrect hostname and port: Enter new one" <<  std::endl;
        strcpy( buffer_in, recvMessage() );
     }
-    return &ret;
+ 
+    return clientSD; //true if > 0
 }
 
  //-----------------------------------------------------------------------------
@@ -101,6 +134,7 @@ int FTPClient::login(char *username, char *password) {
 //Sends the mmessage "USER " and the username
 //-----------------------------------------------------------------------------
 int FTPClient::sendUserName(char* username) {
+    // cout << "in send user" << endl;
     int code;
     memset( ctrlBuf, '\0', sizeof( ctrlBuf ) );
     char buffer[100];
@@ -136,6 +170,8 @@ int FTPClient::getReturnCode( char *message) {
 //Sends a password to the server, and then system information 
 //----------------------------------------------------------------------------
 int FTPClient::sendPassword(char* password) {
+
+    // cout << "in send pass" << endl;
     int code;
     char buffer[2048];
     strcpy(buffer, "PASS ");
@@ -147,6 +183,9 @@ int FTPClient::sendPassword(char* password) {
     strcpy(buffer, recvMessage());
     std::cout << buffer << std::endl;
 
+    strcpy(buffer, recvMessage());
+    cout << buffer << endl; 
+    
     sendSYST();
     return getReturnCode(buffer);
 }
@@ -171,6 +210,8 @@ int FTPClient::sendPASV(){
 
 //-----------------------------------------------------------------------------
 int FTPClient::sendSYST(){
+    // cout << "in send syst" <<endl;
+
     int code;
     char buffer[2048];
     strcpy(buffer, "SYST ");
@@ -225,6 +266,9 @@ char* FTPClient::recvMessage() {
     while(val > 0){
         memset(buffer, '\0', BUFSIZE); 
         msg_size = read(clientSD, buffer, BUFSIZE);
+
+        // cout << "READ " << "msgSize: " << msg_size << " val: " << val << endl;
+
         //got a message? save it
         if(msg_size > 0) {
             message.append(buffer);
