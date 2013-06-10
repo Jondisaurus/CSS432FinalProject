@@ -622,3 +622,46 @@ bool FTPClient::putFile(char* fileName) {
 
     return file_size;
 }
+
+
+bool FTPClient::renameFile(char* oldFilename, char* newFilename){
+
+    std::cout << "got to rename\n";
+    int code;
+    char* msgptr; 
+    char buffer[BUFSIZE];
+
+    //add CWD to buffer to be sent
+    strcpy(buffer, "RNFR ");  
+    if(oldFilename != NULL) 
+        strcat(buffer, oldFilename);
+
+    //send CWD, output error if there was one, message sent on clientSD
+    if(sendMessage(buffer) < 0) {
+       perror("Can't send message\n");
+        return false;
+    }  
+    
+    msgptr = recvMessage();
+    std::cout << msgptr << std::endl;
+
+
+    strcpy(buffer, "RNTO ");  
+    if(newFilename != NULL) 
+        strcat(buffer, newFilename);
+
+    //send CWD, output error if there was one, message sent on clientSD
+    if(sendMessage(buffer) < 0) {
+       perror("Can't send message\n");
+        return false;
+    }
+
+    //Get message from server
+    msgptr = recvMessage();
+    std::cout << msgptr << std::endl;
+
+    return true;
+}
+
+
+

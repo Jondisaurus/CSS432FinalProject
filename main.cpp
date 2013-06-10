@@ -56,9 +56,11 @@ int main( int argc, char* argv[] ) {
     // FTPClient* client = (argc > 3) ? new FTPClient(argv[1], argv[2], argv[3]) :
                      // new FTPClient();
     //==================
+    
+
     //serverIP = client->getServerIP();
     //prompt << "Name" << getlogin() << "):";
-    // prompt << "Name) ";
+    //prompt << "Name) ";
     if(argc > 1)
         serverIP = argv[1];
     else {
@@ -67,7 +69,7 @@ int main( int argc, char* argv[] ) {
     }
 
     FTPClient* client = new FTPClient(argv[1]);
-
+    
     std::string userString( getlogin() );
     std::cout << "Name (" << serverIP << ":" << userString << "): ";
     getUserInput();
@@ -77,19 +79,19 @@ int main( int argc, char* argv[] ) {
     getUserInput();
     client->sendPassword(userInput[0]);
 
-     prompt << "ftp> ";
+    //prompt << "ftp> ";
 
     while(1){
         getUserInput();
 
         if(!strcmp(userInput[0], "cd"))
             client->changeDir(userInput[1]);
-    else if(!strcmp(userInput[0], "open")) {
-        //XXX 21 should be taken from command line too
-        client->open_connection(userInput[1], 21);
-        prompt << serverIP;
-    }
-    else if(!strcmp(userInput[0], "ls"))
+        else if(!strcmp(userInput[0], "open")) {
+            //XXX 21 should be taken from command line too
+            client->open_connection(userInput[1], 21);
+            prompt << serverIP;
+        }
+        else if(!strcmp(userInput[0], "ls"))
             client->getCurrentDirContents();
         else if(!strcmp(userInput[0], "get"))
             client->downloadFile(userInput[1]);
@@ -97,14 +99,16 @@ int main( int argc, char* argv[] ) {
             client->putFile(userInput[1]);
         else if(!strcmp(userInput[0], "close"))
             client->quit();
+        else if(!strcmp(userInput[0], "rename"))
+            client->renameFile(userInput[1], userInput[2]);
         else if(!strcmp(userInput[0], "exit"))
             client->quit();
         else if(!strcmp(userInput[0], "quit"))
             client->quit();
         else if(!strcmp(userInput[0], "name"))
-        client->sendUserName(userInput[1]);
-    else if(!strcmp(userInput[0], "password"))
-        client->sendPassword(userInput[1]);
+            client->sendUserName(userInput[1]);
+        else if(!strcmp(userInput[0], "password"))
+            client->sendPassword(userInput[1]);
         else if(!strcmp(userInput[0], "help") || !strcmp(userInput[0], "?"))
             outputHelp(); 
         else

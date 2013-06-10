@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 #define BUFSIZE 8192
+
 class FTPClient {
 public:
     FTPClient();
@@ -23,19 +24,15 @@ public:
     int getUserName();
     int getPassword();
     int sendUserName(char* nameToSend);
-    //int sendMessage(); 
     int sendMessage(char *buffer);
     void* waitForMessage(void *ptr);
     char* recvMessage();
-    //int sendCommand();
-    //int recvCommand();
     int sendPassword(char* passToSend);
-    int sendPASV();
-    int sendSYST();
+    int sendPASV();         // Send PASV to server and obtain a new Server Socket
+    int sendSYST();         // send client file system type
     int getPortFromPASV(char* );
     bool changeDir(char* dirName);
     char* getCurrentDirContents(); //returns buffer with directory contents
-    //int getFile(char* filename, char* localpath);
     int downloadFile(char *filename);
     bool putFile(char* fileName);
     bool listDir(char* pathname);
@@ -43,6 +40,7 @@ public:
     int getReturnCode(char *message);
     double time_diff(struct timeval x, struct timeval y);
     int getMessageSize(char *msg);
+    bool renameFile(char* oldFilename, char* newFilename);
 
 private:
     int clientSD;
