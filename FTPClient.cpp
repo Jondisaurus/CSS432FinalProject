@@ -71,14 +71,19 @@ FTPClient::~FTPClient() {
 // }
 
 int FTPClient::open_connection(char* hostName, int port) {
-    // cout << "in open connection" << endl;
+    std::cout << "in open connection. Hostname = " << hostName << std::endl;
+
+    char* hostBuf = new char[sizeof(hostName)];
+    strcpy(hostBuf, hostName);
     // Setup
     char buffer_in[1450];
     bzero(buffer_in,1450);
 
      // Attempt to connect to server
     sock = new Socket(port);
-    clientSD = sock->getClientSocket(hostName);
+    std::cout << "made a socket\n";
+    clientSD = sock->getClientSocket(hostBuf);
+    std::cout << "got an SD\n";
     strcpy( buffer_in, recvMessage() );
     std::cout << buffer_in << std::endl;
     while(getReturnCode(buffer_in) != 220) {
@@ -628,7 +633,6 @@ bool FTPClient::putFile(char* fileName) {
 //Rename command
 bool FTPClient::renameFile(char* oldFilename, char* newFilename){
 
-    std::cout << "got to rename\n";
     int code;
     char* msgptr; 
     char buffer[BUFSIZE];
@@ -645,7 +649,7 @@ bool FTPClient::renameFile(char* oldFilename, char* newFilename){
     }  
     
     msgptr = recvMessage();
-    std::cout << msgptr << std::endl;
+    //std::cout << msgptr << std::endl;
 
     //fill buffer with RNTO and filename to change to
     strcpy(buffer, "RNTO ");  

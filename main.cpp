@@ -11,6 +11,7 @@
 char** userInput;
 int inputSize = 0; 
 char* serverIP;
+FTPClient* client;
 // char username[1000];
 // char password[1000];
 std::stringstream prompt;
@@ -28,8 +29,7 @@ char** getUserInput() {
 
     inputSize = 0;
     memset(input, '\0', sizeof(input));
-
-    std::cout << prompt.str();
+    std::cout << prompt.str(); 
     std::cin.getline(input, CHAR_SIZE, '\n');
 
     userInput[inputSize] = strtok(input, " ");
@@ -48,48 +48,36 @@ void outputHelp() {
     std::cout << "./ftp hostName username password" << std::endl;
 }
 
-//-----------------------------------------------------------------------------
-// run with ./ftp ftp.tripod.com
-int main( int argc, char* argv[] ) {
+bool execCommand(char** userInput, bool& connected){
 
-    //=================
-    // FTPClient* client = (argc > 3) ? new FTPClient(argv[1], argv[2], argv[3]) :
-                     // new FTPClient();
-    //==================
-    
-
-    //serverIP = client->getServerIP();
-    //prompt << "Name" << getlogin() << "):";
-    //prompt << "Name) ";
-    if(argc > 1)
-        serverIP = argv[1];
-    else {
-        outputHelp();
-        return 0;
-    }
-
-    FTPClient* client = new FTPClient(argv[1]);
-    
-    std::string userString( getlogin() );
-    std::cout << "Name (" << serverIP << ":" << userString << "): ";
-    getUserInput();
-
-    client->sendUserName(userInput[0]);
-    std::cout << "Password: ";
-    getUserInput();
-    client->sendPassword(userInput[0]);
-
-    prompt << "ftp> ";
-
-    while(1){
-        getUserInput();
+    if(connected){
+    //--------- CLIENT CONNECTED
 
         if(!strcmp(userInput[0], "cd"))
             client->changeDir(userInput[1]);
         else if(!strcmp(userInput[0], "open")) {
             //XXX 21 should be taken from command line too
-            client->open_connection(userInput[1], 21);
-            prompt << serverIP;
+            int port = 21; 
+            if(userInput[2] != NULL){
+                port = atoi(userInput[2]);
+            }
+            char* serverHost = new char[sizeof(userInput[1])];
+            strcpy(serverHost , userInput[1]);
+            while(client->open_connection(userInput[1], port) <= 0){
+                std::cout << "Cant connect. Reenter url";
+                std::cin >> userInput[1];
+            }
+            prompt.str("");
+            std::string userString( getlogin() );
+            std::cout << "Name (" << serverHost << ":" << userString << "): ";
+            getUserInput();
+
+            client->sendUserName(userInput[0]);
+            std::cout << "Password: ";
+            getUserInput();
+            client->sendPassword(userInput[0]);
+            connected = true; 
+            prompt.str("ftp> ");
         }
         else if(!strcmp(userInput[0], "ls"))
             client->getCurrentDirContents();
@@ -97,8 +85,12 @@ int main( int argc, char* argv[] ) {
             client->downloadFile(userInput[1]);
         else if(!strcmp(userInput[0], "put"))
             client->putFile(userInput[1]);
-        else if(!strcmp(userInput[0], "close"))
-            client->quit();
+        else if(!strcmp(userInput[0], "close")){
+            client->close_connection();
+            std::cout << "Client disconnected\n";
+            connected = false;
+        }
+
         else if(!strcmp(userInput[0], "mkdir"))
             client->makeDir(userInput[1]);
         else if(!strcmp(userInput[0], "rename"))
@@ -114,8 +106,88 @@ int main( int argc, char* argv[] ) {
         else if(!strcmp(userInput[0], "help") || !strcmp(userInput[0], "?"))
             outputHelp(); 
         else
-            std::cout << "\nINVALID COMMAND - Please re-enter or type (?)" << std::endl;
-        
+            std::cout << "INVALID COMMAND - Please re-enter or type (?)" << std::endl;
+
+    }else{
+    //-------- CLIENT DISCONNECTED
+
+        if(!strcmp(userInput[0], "open")) {
+            //XXX 21 should be taken from command line too
+            int port = 21; 
+            if(userInput[2] != NULL){
+                port = atoi(userInput[2]);
+            }
+
+            while(client->open_connection(userInput[1], port) <= 0){
+                std::cout << "Cant connect. Reenter url";
+                std::cin >> userInput[1];
+            }
+            prompt.str("");
+            std::string userString( getlogin() );
+            std::cout << "Name (" << userInput[1] << ":" << userString << "): ";
+            getUserInput();
+
+            client->sendUserName(userInput[0]);
+            std::cout << "Password: ";
+            getUserInput();
+            client->sendPassword(userInput[0]);
+            connected = true; 
+            prompt.str("ftp> ");
+        }
+        else if(!strcmp(userInput[0], "help") || !strcmp(userInput[0], "?"))
+            outputHelp();
+        else if(!strcmp(userInput[0], "exit") || !strcmp(userInput[0], "quit") || !strcmp(userInput[0], "close")){
+            client->quit();
+            return false;
+        }else{
+            std::cout << "Client disconnected - type Open to connect or (?) for more options\n";
+        }
+
     }
+    return true; 
+}
+
+//-----------------------------------------------------------------------------
+// run with ./ftp ftp.tripod.com
+int main( int argc, char* argv[] ) {
+
+    //=================
+    // FTPClient* client = (argc > 3) ? new FTPClient(argv[1], argv[2], argv[3]) :
+                     // new FTPClient();
+    //==================
+    
+
+    //serverIP = client->getServerIP();
+    //prompt << "Name" << getlogin() << "):";
+    //prompt << "Name) ";
+    bool connected = false; 
+
+    if(argc > 1){
+        serverIP = argv[1];
+
+        client = new FTPClient(argv[1]);
+    
+        std::string userString( getlogin() );
+        std::cout << "Name (" << serverIP << ":" << userString << "): ";
+        getUserInput();
+
+        client->sendUserName(userInput[0]);
+        std::cout << "Password: ";
+        getUserInput();
+        client->sendPassword(userInput[0]);
+        connected = true; 
+    }
+    else{
+        client = new FTPClient();
+    }
+
+    
+
+    prompt.str("ftp> ");
+
+    do{
+        getUserInput();
+    }while(execCommand(userInput, connected));
+
     return 0;
 }
