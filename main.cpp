@@ -30,6 +30,7 @@ char** getUserInput() {
     inputSize = 0;
     memset(input, '\0', sizeof(input));
     std::cout << prompt.str(); 
+    std::cin.clear(); 
     std::cin.getline(input, CHAR_SIZE, '\n');
 
     userInput[inputSize] = strtok(input, " ");
@@ -49,7 +50,7 @@ void outputHelp() {
 }
 
 bool execCommand(char** userInput, bool& connected){
-
+    std::cout << "||" << userInput[0] << "||" << userInput[1] << "||" << std::endl; 
     if(connected){
     //--------- CLIENT CONNECTED
 
@@ -61,15 +62,14 @@ bool execCommand(char** userInput, bool& connected){
             if(userInput[2] != NULL){
                 port = atoi(userInput[2]);
             }
-            char* serverHost = new char[sizeof(userInput[1])];
-            strcpy(serverHost , userInput[1]);
+
             while(client->open_connection(userInput[1], port) <= 0){
                 std::cout << "Cant connect. Reenter url";
                 std::cin >> userInput[1];
             }
             prompt.str("");
             std::string userString( getlogin() );
-            std::cout << "Name (" << serverHost << ":" << userString << "): ";
+            std::cout << "Name (" << userInput[1] << ":" << userString << "): ";
             getUserInput();
 
             client->sendUserName(userInput[0]);
@@ -125,6 +125,7 @@ bool execCommand(char** userInput, bool& connected){
             prompt.str("");
             std::string userString( getlogin() );
             std::cout << "Name (" << userInput[1] << ":" << userString << "): ";
+
             getUserInput();
 
             client->sendUserName(userInput[0]);

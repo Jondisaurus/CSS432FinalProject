@@ -71,8 +71,6 @@ FTPClient::~FTPClient() {
 // }
 
 int FTPClient::open_connection(char* hostName, int port) {
-    std::cout << "in open connection. Hostname = " << hostName << std::endl;
-
     char* hostBuf = new char[sizeof(hostName)];
     strcpy(hostBuf, hostName);
     // Setup
@@ -81,9 +79,7 @@ int FTPClient::open_connection(char* hostName, int port) {
 
      // Attempt to connect to server
     sock = new Socket(port);
-    std::cout << "made a socket\n";
     clientSD = sock->getClientSocket(hostBuf);
-    std::cout << "got an SD\n";
     strcpy( buffer_in, recvMessage() );
     std::cout << buffer_in << std::endl;
     while(getReturnCode(buffer_in) != 220) {
