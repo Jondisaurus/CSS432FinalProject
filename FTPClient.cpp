@@ -740,6 +740,9 @@ bool FTPClient::printWorkingDirectory(){
 
 //delete file command
 bool FTPClient::deleteFile(char* fileName){
+    int code;
+    char* msgptr; 
+    char buffer[BUFSIZE];
 
     int code;
     char* msgptr; 
