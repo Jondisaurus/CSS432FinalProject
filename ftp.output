@@ -1,0 +1,501 @@
+Script started on Mon 10 Jun 2013 11:55:02 PM PDT
+]0;moseim@uw1-320-22:~/css432/myhw/g_final[moseim@uw1-320-22 g_final]$ ./ftp ftp.tripod.com
+220 Welcome to Tripod us FTP.
+Name (ftp.tripod.com:moseim): css432
+331 Username set to css432. Now enter your password.
+Password: UWb B0th3ll
+230- ==============================================================
+230-                     IMPORTANT NOTICE
+230- ==============================================================
+230- 
+230- Powerful building tools. Traffic-generating, money-making
+230- programs. It's all waiting for you at Tripod.
+230- 
+230-   http://www.tripod.lycos.com/
+230- 
+230- ==============================================================
+230- 
+230- Got a great idea for a website?  Then don't 
+230- wait, get your own web address today! 
+230- 
+230-   http://www.tripod.lycos.com/domains/
+230- 
+230- ==============================================================
+230- 
+230- We heard you loud and clear! You love your site, but
+230- you don't like the ads.  Remove those pesky popups 
+230- forever!
+230- 
+230-   http://www.tripod.lycos.com/web-hosting/compare_plans.pl
+230- 
+230- ==============================================================
+230 User 'css432' logged on.
+215 UNIX Type: L8
+ftp> ls
+227 Entering Passive Mode (209,202,252,54,76,133)
+150 Opening ASCII mode data connection for LIST.
+-rw-r--r--   1 css432   Tripod          0 Dec 13 16:34 test5.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 18:27 speedtest
+-rw-r--r--   1 css432   Tripod          0 Dec 10  2012 test1
+drwxr-xr-x   1 css432   Tripod          0 Jun  9 03:02 jecho
+-rw-r--r--   1 css432   Tripod          0 Dec 10  2012 testest5.txt
+-rw-r--r--   1 css432   Tripod        145 Dec 13 08:19 jechorenametext.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 19:15 secretDungeon
+drwxr-xr-x   1 css432   Tripod          0 Jun  9 14:33 hello2
+-rw-r--r--   1 css432   Tripod        694 Dec 13 08:39 jecho.txt
+-rw-r--r--   1 css432   Tripod      10000 Dec 13 16:41 test6.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  1 19:30 Mfukuda.txt
+-rw-r--r--   1 css432   Tripod       1536 Jun  4 23:12 udp.pdf
+-rw-r--r--   1 css432   Tripod          0 Jun  7 03:07 okay.txt
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:59 hello.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  7 13:46 CraigisaSocket.cpp
+-rw-r--r--   1 css432   Tripod          8 Jun  7 20:37 test_oct.txt
+-rw-r--r--   1 css432   Tripod         12 Jun 10 19:51 win.txt
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 15:30 Socket2.cpp
+drwxr-xr-x   1 css432   Tripod          0 Dec 13  2011 cgi-bin
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:14 project
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 16:36 Socket.cppSocket3.cpp
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 16:37 Socket9.cpp
+-rw-r--r--   1 css432   Tripod     392396 Jun  9 03:43 hamlet.txt
+drwxr-xr-x   1 css432   Tripod          0 Apr  1  2012 SensorGrid
+-rw-r--r--   1 css432   Tripod         32 Jun  8 23:50 sup
+drwxr-xr-x   1 css432   Tripod          0 Jun  8 15:07 sunshine
+-rw-r--r--   1 css432   Tripod     392394 Jun  8 17:15 hamlet_2.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  8 19:54 morrison.txt
+-rw-r--r--   1 css432   Tripod         43 Jun  8 21:45 out.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 12:11 q.txt
+-rw-r--r--   1 css432   Tripod         26 Jun  8 23:06 sample.txt
+-rw-r--r--   1 css432   Tripod       2048 Jun  8 22:15 test123.txt
+-rw-r--r--   1 css432   Tripod         20 Jun  9 00:28 690.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:36 null
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:23 stee.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  9 23:01 simple2.txt
+-rw-r--r--   1 css432   Tripod      10000 Jun 11 02:17 mytest.txt
+-rw-r--r--   1 css432   Tripod          4 Jun 10 04:26 mytest2.txt
+-rw-r--r--   1 css432   Tripod          1 Jun 10 15:05 testing
+-rw-r--r--   1 css432   Tripod          6 Jun 10 05:54 testing.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 15:14 test
+-rw-r--r--   1 css432   Tripod          6 Jun 10 05:31 dumptcp.output
+-rw-r--r--   1 css432   Tripod      10000 Jun 10 07:59 testfile.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 07:59 testfile.com
+-rw-r--r--   1 css432   Tripod         23 Jun 10 19:32 stee3.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 15:05 help
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 15:15 spider
+-rw-r--r--   1 css432   Tripod          7 Jun 10 15:15 ls
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 01:54 newdir
+-rw-r--r--   1 css432   Tripod          0 Jun 11 02:03 yourhello.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 16:09 quit
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:28 stee2.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 17:41 sublime.tar.bz2
+-rw-r--r--   1 css432   Tripod          0 Jun 11 01:54 yourfile.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 19:54 testfile1
+-rw-r--r--   1 css432   Tripod         24 Jun 11 02:12 test100.txt
+-rw-r--r--   1 css432   Tripod        694 Jun 11 02:05 yesjeff.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 22:38 newtxt
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:19 t
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:09 p
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:10 t1
+-rw-r--r--   1 css432   Tripod          0 Jun 11 00:35 100dollars.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:22 testDir
+226 Transfer complete.
+ftp> cd null
+250 Directory set to '/null'.
+ftp> ls
+227 Entering Passive Mode (209,202,252,54,76,211)
+150 Opening ASCII mode data connection for LIST.
+-rw-r--r--   1 css432   Tripod          2 Jun  9 02:32 test6.txt
+-rw-r--r--   1 css432   Tripod          2 Jun  9 02:24 test123.txt
+-rw-r--r--   1 css432   Tripod       2642 Jun  9 02:32 test7.txt
+-rw-r--r--   1 css432   Tripod          4 Jun 11 02:06 sup.txt
+-rw-r--r--   1 css432   Tripod          8 Jun  9 23:03 stee.txt
+-rw-r--r--   1 css432   Tripod         23 Jun  9 23:05 690.txt
+-rw-r--r--   1 css432   Tripod          4 Jun 10 22:52 t.txt
+-rw-r--r--   1 css432   Tripod         25 Jun 10 22:58 testfile1
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:00 testfile2
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:06 testfile3
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:22 t
+-rw-r--r--   1 css432   Tripod          4 Jun 10 23:24 t1
+-rw-r--r--   1 css432   Tripod         32 Jun 10 23:26 final
+-rw-r--r--   1 css432   Tripod         12 Jun 10 23:32 win.txt
+-rw-r--r--   1 css432   Tripod     392396 Jun 10 23:33 ham.txt
+226 Transfer complete.
+ftp> get testfile1
+local: testfile1 remote: testfile1
+200 Type set to 'I' (IMAGE aka BINARY).
+227 Entering Passive Mode (209,202,252,54,76,250)
+150 Opening BINARY mode data connection for 'testfile1'.
+226 Transfer complete.  (25 bytes sent.)
+25 bytes received in 20 milliseconds (1.25e+06 Kbytes/s)
+ftp> get win.txt
+local: win.txt remote: win.txt
+200 Type set to 'I' (IMAGE aka BINARY).
+227 Entering Passive Mode (209,202,252,54,77,21)
+150 Opening BINARY mode data connection for 'win.txt'.
+226 Transfer complete.  (12 bytes sent.)
+12 bytes received in 10 milliseconds (1.2e+06 Kbytes/s)
+ftp> ls
+227 Entering Passive Mode (209,202,252,54,77,37)
+150 Opening ASCII mode data connection for LIST.
+-rw-r--r--   1 css432   Tripod          2 Jun  9 02:32 test6.txt
+-rw-r--r--   1 css432   Tripod          2 Jun  9 02:24 test123.txt
+-rw-r--r--   1 css432   Tripod       2642 Jun  9 02:32 test7.txt
+-rw-r--r--   1 css432   Tripod          4 Jun 11 02:06 sup.txt
+-rw-r--r--   1 css432   Tripod          8 Jun  9 23:03 stee.txt
+-rw-r--r--   1 css432   Tripod         23 Jun  9 23:05 690.txt
+-rw-r--r--   1 css432   Tripod          4 Jun 10 22:52 t.txt
+-rw-r--r--   1 css432   Tripod         25 Jun 10 22:58 testfile1
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:00 testfile2
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:06 testfile3
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:22 t
+-rw-r--r--   1 css432   Tripod          4 Jun 10 23:24 t1
+-rw-r--r--   1 css432   Tripod         32 Jun 10 23:26 final
+-rw-r--r--   1 css432   Tripod         12 Jun 10 23:32 win.txt
+-rw-r--r--   1 css432   Tripod     392396 Jun 10 23:33 ham.txt
+226 Transfer complete.
+ftp> cd ..
+250 Directory set to '/'.
+ftp> ls
+227 Entering Passive Mode (209,202,252,54,77,76)
+150 Opening ASCII mode data connection for LIST.
+-rw-r--r--   1 css432   Tripod          0 Dec 13 16:34 test5.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 18:27 speedtest
+-rw-r--r--   1 css432   Tripod          0 Dec 10  2012 test1
+drwxr-xr-x   1 css432   Tripod          0 Jun  9 03:02 jecho
+-rw-r--r--   1 css432   Tripod          0 Dec 10  2012 testest5.txt
+-rw-r--r--   1 css432   Tripod        145 Dec 13 08:19 jechorenametext.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 19:15 secretDungeon
+drwxr-xr-x   1 css432   Tripod          0 Jun  9 14:33 hello2
+-rw-r--r--   1 css432   Tripod        694 Dec 13 08:39 jecho.txt
+-rw-r--r--   1 css432   Tripod      10000 Dec 13 16:41 test6.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  1 19:30 Mfukuda.txt
+-rw-r--r--   1 css432   Tripod       1536 Jun  4 23:12 udp.pdf
+-rw-r--r--   1 css432   Tripod          0 Jun  7 03:07 okay.txt
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:59 hello.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  7 13:46 CraigisaSocket.cpp
+-rw-r--r--   1 css432   Tripod          8 Jun  7 20:37 test_oct.txt
+-rw-r--r--   1 css432   Tripod         12 Jun 10 19:51 win.txt
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 15:30 Socket2.cpp
+drwxr-xr-x   1 css432   Tripod          0 Dec 13  2011 cgi-bin
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:14 project
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 16:36 Socket.cppSocket3.cpp
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 16:37 Socket9.cpp
+-rw-r--r--   1 css432   Tripod     392396 Jun  9 03:43 hamlet.txt
+drwxr-xr-x   1 css432   Tripod          0 Apr  1  2012 SensorGrid
+-rw-r--r--   1 css432   Tripod         32 Jun  8 23:50 sup
+drwxr-xr-x   1 css432   Tripod          0 Jun  8 15:07 sunshine
+-rw-r--r--   1 css432   Tripod     392394 Jun  8 17:15 hamlet_2.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  8 19:54 morrison.txt
+-rw-r--r--   1 css432   Tripod         43 Jun  8 21:45 out.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 12:11 q.txt
+-rw-r--r--   1 css432   Tripod         26 Jun  8 23:06 sample.txt
+-rw-r--r--   1 css432   Tripod       2048 Jun  8 22:15 test123.txt
+-rw-r--r--   1 css432   Tripod         20 Jun  9 00:28 690.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:36 null
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:23 stee.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  9 23:01 simple2.txt
+-rw-r--r--   1 css432   Tripod      10000 Jun 11 02:17 mytest.txt
+-rw-r--r--   1 css432   Tripod          4 Jun 10 04:26 mytest2.txt
+-rw-r--r--   1 css432   Tripod          1 Jun 10 15:05 testing
+-rw-r--r--   1 css432   Tripod          6 Jun 10 05:54 testing.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 15:14 test
+-rw-r--r--   1 css432   Tripod          6 Jun 10 05:31 dumptcp.output
+-rw-r--r--   1 css432   Tripod      10000 Jun 10 07:59 testfile.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 07:59 testfile.com
+-rw-r--r--   1 css432   Tripod         23 Jun 10 19:32 stee3.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 15:05 help
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 15:15 spider
+-rw-r--r--   1 css432   Tripod          7 Jun 10 15:15 ls
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 01:54 newdir
+-rw-r--r--   1 css432   Tripod          0 Jun 11 02:03 yourhello.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 16:09 quit
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:28 stee2.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 17:41 sublime.tar.bz2
+-rw-r--r--   1 css432   Tripod          0 Jun 11 01:54 yourfile.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 19:54 testfile1
+-rw-r--r--   1 css432   Tripod         24 Jun 11 02:12 test100.txt
+-rw-r--r--   1 css432   Tripod        694 Jun 11 02:05 yesjeff.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 22:38 newtxt
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:19 t
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:09 p
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:10 t1
+-rw-r--r--   1 css432   Tripod          0 Jun 11 00:35 100dollars.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:22 testDir
+226 Transfer complete.
+ftp> put win.txt
+local: win.txt remote: win.txt
+200 Type set to 'I' (IMAGE aka BINARY).
+227 Entering Passive Mode (209,202,252,54,77,104)
+150 Opening BINARY mode data connection for 'win.txt'.
+226 Transfer complete.  (14 bytes sent.)
+14 bytes received in 8 ms (1.75e+06Kbytes/s)
+ftp> ls
+227 Entering Passive Mode (209,202,252,54,77,168)
+150 Opening ASCII mode data connection for LIST.
+-rw-r--r--   1 css432   Tripod          0 Dec 13 16:34 test5.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 18:27 speedtest
+-rw-r--r--   1 css432   Tripod          0 Dec 10  2012 test1
+drwxr-xr-x   1 css432   Tripod          0 Jun  9 03:02 jecho
+-rw-r--r--   1 css432   Tripod          0 Dec 10  2012 testest5.txt
+-rw-r--r--   1 css432   Tripod        145 Dec 13 08:19 jechorenametext.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 19:15 secretDungeon
+drwxr-xr-x   1 css432   Tripod          0 Jun  9 14:33 hello2
+-rw-r--r--   1 css432   Tripod        694 Dec 13 08:39 jecho.txt
+-rw-r--r--   1 css432   Tripod      10000 Dec 13 16:41 test6.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  1 19:30 Mfukuda.txt
+-rw-r--r--   1 css432   Tripod       1536 Jun  4 23:12 udp.pdf
+-rw-r--r--   1 css432   Tripod          0 Jun  7 03:07 okay.txt
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:59 hello.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  7 13:46 CraigisaSocket.cpp
+-rw-r--r--   1 css432   Tripod          8 Jun  7 20:37 test_oct.txt
+-rw-r--r--   1 css432   Tripod         14 Jun 11 02:55 win.txt
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 15:30 Socket2.cpp
+drwxr-xr-x   1 css432   Tripod          0 Dec 13  2011 cgi-bin
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:14 project
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 16:36 Socket.cppSocket3.cpp
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 16:37 Socket9.cpp
+-rw-r--r--   1 css432   Tripod     392396 Jun  9 03:43 hamlet.txt
+drwxr-xr-x   1 css432   Tripod          0 Apr  1  2012 SensorGrid
+-rw-r--r--   1 css432   Tripod         32 Jun  8 23:50 sup
+drwxr-xr-x   1 css432   Tripod          0 Jun  8 15:07 sunshine
+-rw-r--r--   1 css432   Tripod     392394 Jun  8 17:15 hamlet_2.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  8 19:54 morrison.txt
+-rw-r--r--   1 css432   Tripod         43 Jun  8 21:45 out.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 12:11 q.txt
+-rw-r--r--   1 css432   Tripod         26 Jun  8 23:06 sample.txt
+-rw-r--r--   1 css432   Tripod       2048 Jun  8 22:15 test123.txt
+-rw-r--r--   1 css432   Tripod         20 Jun  9 00:28 690.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:36 null
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:23 stee.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  9 23:01 simple2.txt
+-rw-r--r--   1 css432   Tripod      10000 Jun 11 02:17 mytest.txt
+-rw-r--r--   1 css432   Tripod          4 Jun 10 04:26 mytest2.txt
+-rw-r--r--   1 css432   Tripod          1 Jun 10 15:05 testing
+-rw-r--r--   1 css432   Tripod          6 Jun 10 05:54 testing.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 15:14 test
+-rw-r--r--   1 css432   Tripod          6 Jun 10 05:31 dumptcp.output
+-rw-r--r--   1 css432   Tripod      10000 Jun 10 07:59 testfile.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 07:59 testfile.com
+-rw-r--r--   1 css432   Tripod         23 Jun 10 19:32 stee3.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 15:05 help
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 15:15 spider
+-rw-r--r--   1 css432   Tripod          7 Jun 10 15:15 ls
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 01:54 newdir
+-rw-r--r--   1 css432   Tripod          0 Jun 11 02:03 yourhello.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 16:09 quit
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:28 stee2.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 17:41 sublime.tar.bz2
+-rw-r--r--   1 css432   Tripod          0 Jun 11 01:54 yourfile.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 19:54 testfile1
+-rw-r--r--   1 css432   Tripod         24 Jun 11 02:12 test100.txt
+-rw-r--r--   1 css432   Tripod        694 Jun 11 02:05 yesjeff.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 22:38 newtxt
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:19 t
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:09 p
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:10 t1
+-rw-r--r--   1 css432   Tripod          0 Jun 11 00:35 100dollars.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:22 testDir
+226 Transfer complete.
+ftp> pwd
+257 "/" is current directory.
+ftp> ls
+227 Entering Passive Mode (209,202,252,54,77,215)
+150 Opening ASCII mode data connection for LIST.
+-rw-r--r--   1 css432   Tripod          0 Dec 13 16:34 test5.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 18:27 speedtest
+-rw-r--r--   1 css432   Tripod          0 Dec 10  2012 test1
+drwxr-xr-x   1 css432   Tripod          0 Jun  9 03:02 jecho
+-rw-r--r--   1 css432   Tripod          0 Dec 10  2012 testest5.txt
+-rw-r--r--   1 css432   Tripod        145 Dec 13 08:19 jechorenametext.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 19:15 secretDungeon
+drwxr-xr-x   1 css432   Tripod          0 Jun  9 14:33 hello2
+-rw-r--r--   1 css432   Tripod        694 Dec 13 08:39 jecho.txt
+-rw-r--r--   1 css432   Tripod      10000 Dec 13 16:41 test6.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  1 19:30 Mfukuda.txt
+-rw-r--r--   1 css432   Tripod       1536 Jun  4 23:12 udp.pdf
+-rw-r--r--   1 css432   Tripod          0 Jun  7 03:07 okay.txt
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:59 hello.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  7 13:46 CraigisaSocket.cpp
+-rw-r--r--   1 css432   Tripod          8 Jun  7 20:37 test_oct.txt
+-rw-r--r--   1 css432   Tripod         14 Jun 11 02:55 win.txt
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 15:30 Socket2.cpp
+drwxr-xr-x   1 css432   Tripod          0 Dec 13  2011 cgi-bin
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:14 project
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 16:36 Socket.cppSocket3.cpp
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 16:37 Socket9.cpp
+-rw-r--r--   1 css432   Tripod     392396 Jun  9 03:43 hamlet.txt
+drwxr-xr-x   1 css432   Tripod          0 Apr  1  2012 SensorGrid
+-rw-r--r--   1 css432   Tripod         32 Jun  8 23:50 sup
+drwxr-xr-x   1 css432   Tripod          0 Jun  8 15:07 sunshine
+-rw-r--r--   1 css432   Tripod     392394 Jun  8 17:15 hamlet_2.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  8 19:54 morrison.txt
+-rw-r--r--   1 css432   Tripod         43 Jun  8 21:45 out.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 12:11 q.txt
+-rw-r--r--   1 css432   Tripod         26 Jun  8 23:06 sample.txt
+-rw-r--r--   1 css432   Tripod       2048 Jun  8 22:15 test123.txt
+-rw-r--r--   1 css432   Tripod         20 Jun  9 00:28 690.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:36 null
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:23 stee.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  9 23:01 simple2.txt
+-rw-r--r--   1 css432   Tripod      10000 Jun 11 02:17 mytest.txt
+-rw-r--r--   1 css432   Tripod          4 Jun 10 04:26 mytest2.txt
+-rw-r--r--   1 css432   Tripod          1 Jun 10 15:05 testing
+-rw-r--r--   1 css432   Tripod          6 Jun 10 05:54 testing.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 15:14 test
+-rw-r--r--   1 css432   Tripod          6 Jun 10 05:31 dumptcp.output
+-rw-r--r--   1 css432   Tripod      10000 Jun 10 07:59 testfile.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 07:59 testfile.com
+-rw-r--r--   1 css432   Tripod         23 Jun 10 19:32 stee3.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 15:05 help
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 15:15 spider
+-rw-r--r--   1 css432   Tripod          7 Jun 10 15:15 ls
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 01:54 newdir
+-rw-r--r--   1 css432   Tripod          0 Jun 11 02:03 yourhello.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 16:09 quit
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:28 stee2.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 17:41 sublime.tar.bz2
+-rw-r--r--   1 css432   Tripod          0 Jun 11 01:54 yourfile.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 19:54 testfile1
+-rw-r--r--   1 css432   Tripod         24 Jun 11 02:12 test100.txt
+-rw-r--r--   1 css432   Tripod        694 Jun 11 02:05 yesjeff.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 22:38 newtxt
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:19 t
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:09 p
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:10 t1
+-rw-r--r--   1 css432   Tripod          0 Jun 11 00:35 100dollars.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:22 testDir
+226 Transfer complete.
+ftp> cd testdir   Dir
+250 Directory set to '/testDir'.
+ftp> ls
+227 Entering Passive Mode (209,202,252,54,78,12)
+150 Opening ASCII mode data connection for LIST.
+-rw-r--r--   1 css432   Tripod         24 Jun 11 02:22 test200.txt
+226 Transfer complete.
+ftp> cd ..
+250 Directory set to '/'.
+ftp> ls
+227 Entering Passive Mode (209,202,252,54,78,87)
+150 Opening ASCII mode data connection for LIST.
+-rw-r--r--   1 css432   Tripod          0 Dec 13 16:34 test5.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 18:27 speedtest
+-rw-r--r--   1 css432   Tripod          0 Dec 10  2012 test1
+drwxr-xr-x   1 css432   Tripod          0 Jun  9 03:02 jecho
+-rw-r--r--   1 css432   Tripod          0 Dec 10  2012 testest5.txt
+-rw-r--r--   1 css432   Tripod        145 Dec 13 08:19 jechorenametext.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 19:15 secretDungeon
+drwxr-xr-x   1 css432   Tripod          0 Jun  9 14:33 hello2
+-rw-r--r--   1 css432   Tripod        694 Dec 13 08:39 jecho.txt
+-rw-r--r--   1 css432   Tripod      10000 Dec 13 16:41 test6.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  1 19:30 Mfukuda.txt
+-rw-r--r--   1 css432   Tripod       1536 Jun  4 23:12 udp.pdf
+-rw-r--r--   1 css432   Tripod          0 Jun  7 03:07 okay.txt
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:59 hello.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  7 13:46 CraigisaSocket.cpp
+-rw-r--r--   1 css432   Tripod          8 Jun  7 20:37 test_oct.txt
+-rw-r--r--   1 css432   Tripod         14 Jun 11 02:55 win.txt
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 15:30 Socket2.cpp
+drwxr-xr-x   1 css432   Tripod          0 Dec 13  2011 cgi-bin
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:14 project
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 16:36 Socket.cppSocket3.cpp
+-rw-r--r--   1 css432   Tripod       2735 Jun  6 16:37 Socket9.cpp
+-rw-r--r--   1 css432   Tripod     392396 Jun  9 03:43 hamlet.txt
+drwxr-xr-x   1 css432   Tripod          0 Apr  1  2012 SensorGrid
+-rw-r--r--   1 css432   Tripod         32 Jun  8 23:50 sup
+drwxr-xr-x   1 css432   Tripod          0 Jun  8 15:07 sunshine
+-rw-r--r--   1 css432   Tripod     392394 Jun  8 17:15 hamlet_2.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  8 19:54 morrison.txt
+-rw-r--r--   1 css432   Tripod         43 Jun  8 21:45 out.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 12:11 q.txt
+-rw-r--r--   1 css432   Tripod         26 Jun  8 23:06 sample.txt
+-rw-r--r--   1 css432   Tripod       2048 Jun  8 22:15 test123.txt
+-rw-r--r--   1 css432   Tripod         20 Jun  9 00:28 690.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:36 null
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:23 stee.txt
+-rw-r--r--   1 css432   Tripod          0 Jun  9 23:01 simple2.txt
+-rw-r--r--   1 css432   Tripod      10000 Jun 11 02:17 mytest.txt
+-rw-r--r--   1 css432   Tripod          4 Jun 10 04:26 mytest2.txt
+-rw-r--r--   1 css432   Tripod          1 Jun 10 15:05 testing
+-rw-r--r--   1 css432   Tripod          6 Jun 10 05:54 testing.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 15:14 test
+-rw-r--r--   1 css432   Tripod          6 Jun 10 05:31 dumptcp.output
+-rw-r--r--   1 css432   Tripod      10000 Jun 10 07:59 testfile.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 07:59 testfile.com
+-rw-r--r--   1 css432   Tripod         23 Jun 10 19:32 stee3.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 15:05 help
+drwxr-xr-x   1 css432   Tripod          0 Jun 10 15:15 spider
+-rw-r--r--   1 css432   Tripod          7 Jun 10 15:15 ls
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 01:54 newdir
+-rw-r--r--   1 css432   Tripod          0 Jun 11 02:03 yourhello.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 16:09 quit
+-rw-r--r--   1 css432   Tripod          7 Jun 10 16:28 stee2.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 17:41 sublime.tar.bz2
+-rw-r--r--   1 css432   Tripod          0 Jun 11 01:54 yourfile.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 19:54 testfile1
+-rw-r--r--   1 css432   Tripod         24 Jun 11 02:12 test100.txt
+-rw-r--r--   1 css432   Tripod        694 Jun 11 02:05 yesjeff.txt
+-rw-r--r--   1 css432   Tripod          0 Jun 10 22:38 newtxt
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:19 t
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:09 p
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:10 t1
+-rw-r--r--   1 css432   Tripod          0 Jun 11 00:35 100dollars.txt
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:22 testDir
+226 Transfer complete.
+ftp> cd null
+250 Directory set to '/null'.
+ftp> ls
+227 Entering Passive Mode (209,202,252,54,78,163)
+150 Opening ASCII mode data connection for LIST.
+-rw-r--r--   1 css432   Tripod          2 Jun  9 02:32 test6.txt
+-rw-r--r--   1 css432   Tripod          2 Jun  9 02:24 test123.txt
+-rw-r--r--   1 css432   Tripod       2642 Jun  9 02:32 test7.txt
+-rw-r--r--   1 css432   Tripod          4 Jun 11 02:06 sup.txt
+-rw-r--r--   1 css432   Tripod          8 Jun  9 23:03 stee.txt
+-rw-r--r--   1 css432   Tripod         23 Jun  9 23:05 690.txt
+-rw-r--r--   1 css432   Tripod          4 Jun 10 22:52 t.txt
+-rw-r--r--   1 css432   Tripod         25 Jun 10 22:58 testfile1
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:00 testfile2
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:06 testfile3
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:22 t
+-rw-r--r--   1 css432   Tripod          4 Jun 10 23:24 t1
+-rw-r--r--   1 css432   Tripod         32 Jun 10 23:26 final
+-rw-r--r--   1 css432   Tripod         12 Jun 10 23:32 win.txt
+-rw-r--r--   1 css432   Tripod     392396 Jun 10 23:33 ham.txt
+226 Transfer complete.
+ftp> mkdir testdir
+257 "/null/testdir" created.
+ftp> ls
+227 Entering Passive Mode (209,202,252,54,78,209)
+150 Opening ASCII mode data connection for LIST.
+-rw-r--r--   1 css432   Tripod          2 Jun  9 02:32 test6.txt
+-rw-r--r--   1 css432   Tripod          2 Jun  9 02:24 test123.txt
+-rw-r--r--   1 css432   Tripod       2642 Jun  9 02:32 test7.txt
+-rw-r--r--   1 css432   Tripod          4 Jun 11 02:06 sup.txt
+-rw-r--r--   1 css432   Tripod          8 Jun  9 23:03 stee.txt
+-rw-r--r--   1 css432   Tripod         23 Jun  9 23:05 690.txt
+-rw-r--r--   1 css432   Tripod          4 Jun 10 22:52 t.txt
+-rw-r--r--   1 css432   Tripod         25 Jun 10 22:58 testfile1
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:00 testfile2
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:06 testfile3
+-rw-r--r--   1 css432   Tripod         25 Jun 10 23:22 t
+drwxr-xr-x   1 css432   Tripod          0 Jun 11 02:56 testdir
+-rw-r--r--   1 css432   Tripod          4 Jun 10 23:24 t1
+-rw-r--r--   1 css432   Tripod         32 Jun 10 23:26 final
+-rw-r--r--   1 css432   Tripod         12 Jun 10 23:32 win.txt
+-rw-r--r--   1 css432   Tripod     392396 Jun 10 23:33 ham.txt
+226 Transfer complete.
+ftp> rmdir testdir
+250 Directory 'testdir' removed.
+ftp> close     help
+Commands may be abbreviated. Commands are: 
+
+cd        ls       quit    
+close     mkdir    rename  
+delete    put      rmdir   
+get       pwd              
+ftp> close
+221 Goodbye...
+Client disconnected
+ftp> quit
+]0;moseim@uw1-320-22:~/css432/myhw/g_final[moseim@uw1-320-22 g_final]$ exit
+
+Script done on Mon 10 Jun 2013 11:56:58 PM PDT

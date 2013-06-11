@@ -1,3 +1,8 @@
+//************************************************************//
+//Coders: Michael Moseichuk,Kyle Morrison,John Difransesco    //
+//Project: CSS432 FTP Client/Final Project                    //
+//File: FTPClient.cpp                                         //
+//************************************************************//
 #include "FTPClient.h"
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -10,7 +15,6 @@
 
 using namespace std;
 
-// char* ret;
 //-----------------------------------------------------------------------------
 FTPClient::FTPClient() {
     clientSD = 0;
@@ -39,43 +43,14 @@ FTPClient::FTPClient(char* url ) {
        std::cout << "Cant connect. Reenter url";
        cin >> url;
     }
-    // login(user, pass);
 }
 
 //-----------------------------------------------------------------------------
 FTPClient::~FTPClient() {
 }
-//XXX: I dont care about memory leaks at aaaaaaaaalllllllll
-//-----------------------------------------------------------------------------
-// char** FTPClient::open_connection(char* hostName, int port) {
-//     //XXX: I ccant figure out how to pass this url >_< Any help?
-//     // hostName = "ftp.tripod.com";
-//     int i = strlen(hostName);
-//     ret = (char*)malloc(i * sizeof(char));
-//     memcpy(ret, hostName, sizeof(hostName));
-//     //Setup
-//     char buffer_in[1450];
-//     bzero(buffer_in,1450);
-//     sock = NULL;
-//     // Attempt to connect to server
-//     sock = new Socket(port);
-//     //cout << hex<<  *hostName<< sock << endl;
-//     clientSD = sock->getClientSocket(hostName);
-//     strcpy( buffer_in, recvMessage() );
-//     std::cout << buffer_in << std::endl;
-//     while(getReturnCode(buffer_in) != 220) {
-//        std::cout << "Incorrect hostname and port: Enter new one" <<  std::endl;
-//        strcpy( buffer_in, recvMessage() );
-//     }
-//     return &ret;
-// }
 
 int FTPClient::open_connection(char* hostName, int port) {
 
-    // cout << "in open connection, hostname: " << hostName << " port: " << port << endl;
-
-    // char* hostBuf = new char[sizeof(hostName)];
-    // strcpy(hostBuf, hostName);
     // Setup
     char buffer_in[1450];
     bzero(buffer_in,1450);
@@ -97,7 +72,8 @@ int FTPClient::open_connection(char* hostName, int port) {
     return clientSD; //true if > 0
 }
 
- //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+//used to close the connection with server
 void FTPClient::close_connection() {
     int code;
     char* msgptr; 
@@ -120,6 +96,7 @@ void FTPClient::close_connection() {
 }
 
 //-----------------------------------------------------------------------------
+//used to close and quit the program
 void FTPClient::quit() {
     close(clientSD);
     exit(1);
@@ -219,6 +196,7 @@ int FTPClient::sendPassword(char* password) {
 }
 
 //-----------------------------------------------------------------------------
+//setup passive connection
 int FTPClient::sendPASV(){
     char buffer[70];                            //allocate buffer
     bzero(buffer, 70 );                         //zero out buffer
@@ -237,8 +215,8 @@ int FTPClient::sendPASV(){
 }
 
 //-----------------------------------------------------------------------------
+//send SYST command
 int FTPClient::sendSYST(){
-    // cout << "in send syst" <<endl;
 
     int code;
     char buffer[2048];
@@ -267,9 +245,8 @@ int FTPClient::sendMessage(char* buffer) {
 }
 
 //-----------------------------------------------------------------------------
+//used to receive message
 char* FTPClient::recvMessage() {
-
-
 
     //Configure polling
     struct pollfd ufds;
@@ -291,14 +268,11 @@ char* FTPClient::recvMessage() {
     }
 
     val = poll(&ufds, 1, 1000);
-    // cout << "ABOUT TO READ!! " << endl;
     int counter = 0;
 
     while(val > 0){
         memset(buffer, '\0', BUFSIZE); 
         msg_size = read(clientSD, buffer, BUFSIZE);
-
-        // cout << "READ " << "msgSize: " << msg_size << " val: " << val << endl;
 
         //got a message? save it
         if(msg_size > 0) {
@@ -330,34 +304,32 @@ char* FTPClient::recvMessage() {
 }
 
 //-----------------------------------------------------------------------------
+//use to get the port from passive connection
 int FTPClient::getPortFromPASV( char* buffer ) {
 
-    // std::cout << "in getPortFromPASV" << std::endl;
+    std::cout << buffer << std::endl;       //display output
+    int address[6];                         //hold address and port
 
-    std::cout << buffer << std::endl;
-    int address[6];
-
+    //clear data sturcture
     for(int i=0; i<6; i++)
         address[i] = 0;
 
-    char tempBuf[4];
-    bzero(tempBuf, 6);
+    char tempBuf[4];        //temp buffer
+    bzero(tempBuf, 6);      //zero out buffer
 
-    char tempChar;
-    int j = 0,k = 0;
+    char tempChar;          //temp character
+    int j = 0,k = 0;        //set to zero
 
+    //find numbers, and store
     for(int i=20; i < strlen(buffer) ;i++ ) {
         if(buffer[i] == ',' || buffer[i] == ')') {
-            // std::cout << tempBuf << std::endl;
             address[j] = atoi(tempBuf);
             j++;
             k = 0;
             bzero(tempBuf, 6);
-            //tempBuf = new std::string;
         }
         else {
             if( isdigit( buffer[i] )) {
-                // std::cout << buffer[i] << std::endl;
                 tempBuf[k] = buffer[i];
                 k++;
             }
@@ -365,16 +337,15 @@ int FTPClient::getPortFromPASV( char* buffer ) {
         }
     }
 
+    //calculate port number
     int port = address[4] * 256 + address[5];
 
-    return port;
+    return port;    //return port number
 }
 
 //-----------------------------------------------------------------------------
+//use to change the working directory
 bool FTPClient::changeDir(char* dirName) {
-    // std::cout << "Consider yourself STUBBED!! (changeDir)"<< std::endl;
-
-    // std::cout << dirName << std::endl;
 
     int code;
     char* msgptr; 
@@ -401,8 +372,6 @@ bool FTPClient::changeDir(char* dirName) {
 //-----------------------------------------------------------------------------
 //List command
 char* FTPClient::getCurrentDirContents() {
-
-    // cout << "in getCurrentDirContents" << endl;
 
     int code;
     char* dataptr;
@@ -434,9 +403,7 @@ char* FTPClient::getCurrentDirContents() {
     clientSD = dataSD; 
 
     //recieve data buffer from server
-    // usleep(100);
     dataptr = recvMessage();
-    // usleep(100);
     if(dataptr == NULL) {
         // cout << "is it NULL???" << endl;
         clientSD = tempSD; 
@@ -591,6 +558,7 @@ double FTPClient::time_diff(struct timeval x, struct timeval y) {
 }
 
 //-----------------------------------------------------------------------------
+// put command
 bool FTPClient::putFile(char* fileName) {
 
     struct pollfd ufds;
@@ -699,6 +667,8 @@ bool FTPClient::renameFile(char* oldFilename, char* newFilename){
     delete [] msgptr; 
     return true;
 }
+
+//make directory command
 bool FTPClient::makeDir(char* dirName){
     
     int code;
@@ -723,18 +693,19 @@ bool FTPClient::makeDir(char* dirName){
     return true;
 }
 
+//remove directory command
 bool FTPClient::removeDir(char* dirName){
     
     int code;
     char* msgptr; 
     char buffer[BUFSIZE];
 
-    //add MKD to buffer to be sent
+    //add RMD to buffer to be sent
     strcpy(buffer, "RMD ");  
     if(dirName != NULL) 
         strcat(buffer, dirName);
 
-    //send MKD, output error if there was one, message sent on clientSD
+    //send RMD, output error if there was one, message sent on clientSD
     if(sendMessage(buffer) < 0) {
        perror("Can't send message\n");
         return false;
@@ -747,7 +718,7 @@ bool FTPClient::removeDir(char* dirName){
     return true;
 }
 
-
+//print workind directory
 bool FTPClient::printWorkingDirectory(){
     int code;
     char* msgptr; 
@@ -767,14 +738,19 @@ bool FTPClient::printWorkingDirectory(){
     std::cout << msgptr << std::endl;
 }
 
+//delete file command
 bool FTPClient::deleteFile(char* fileName){
 
-    //add MKD to buffer to be sent
+    int code;
+    char* msgptr; 
+    char buffer[BUFSIZE];
+
+    //add DELE to buffer to be sent
     strcpy(buffer, "DELE ");  
     if(fileName != NULL) 
         strcat(buffer, fileName);
 
-    //send MKD, output error if there was one, message sent on clientSD
+    //send DELE, output error if there was one, message sent on clientSD
     if(sendMessage(buffer) < 0) {
        perror("Can't send message\n");
         return false;

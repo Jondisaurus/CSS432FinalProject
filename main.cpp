@@ -1,3 +1,8 @@
+//************************************************************//
+//Coders: Michael Moseichuk,Kyle Morrison,John Difransesco    //
+//Project: CSS432 FTP Client/Final Project                    //
+//File: main.cpp                                              //
+//************************************************************//
 #include "FTPClient.h"
 #include <iostream>
 #include <fstream>
@@ -12,8 +17,6 @@ char** userInput;
 int inputSize = 0; 
 char* serverIP;
 FTPClient* client;
-// char username[1000];
-// char password[1000];
 std::stringstream prompt;
 //-----------------------------------------------------------------------------
 ///This function presents the user with a command line then stores the
@@ -45,7 +48,6 @@ char** getUserInput() {
 
 //-----------------------------------------------------------------------------
 void outputHelp() {
-    // std::cout << "Wrong usage! Please use like this: " << std::endl;
     std::cout << "./ftp hostName" << std::endl;
 }
 
@@ -55,10 +57,11 @@ void outputHelp2() {
     std::cout << "cd        ls       quit    " << std::endl;
     std::cout << "close     mkdir    rename  " << std::endl;
     std::cout << "delete    put      rmdir   " << std::endl;
-    std::cout << "get                        " << std::endl;
+    std::cout << "get       pwd              " << std::endl;
     // std::cout << "get       put         close" << std::endl;
 }
 
+//checks for what command the client wants to execute according to input
 bool execCommand(bool& connected){
 
     if(userInput[0] == NULL)
@@ -176,16 +179,7 @@ bool execCommand(bool& connected){
 // run with ./ftp ftp.tripod.com
 int main( int argc, char* argv[] ) {
 
-    //=================
-    // FTPClient* client = (argc > 3) ? new FTPClient(argv[1], argv[2], argv[3]) :
-                     // new FTPClient();
-    //==================
-    
-
-    //serverIP = client->getServerIP();
-    //prompt << "Name" << getlogin() << "):";
-    //prompt << "Name) ";
-    bool connected = false; 
+    bool connected = false;             //set initially to false
 
     if(argc > 1){
         serverIP = argv[1];

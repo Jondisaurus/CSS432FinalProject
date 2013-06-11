@@ -1,3 +1,8 @@
+//************************************************************//
+//Coders: Michael Moseichuk,Kyle Morrison,John Difransesco    //
+//Project: CSS432 FTP Client/Final Project                    //
+//File: FTPClient.h                                           //
+//************************************************************//
 #include "Socket.h"
 #include <string.h>
 #include <iostream>
@@ -12,50 +17,42 @@
 
 class FTPClient {
 public:
-    FTPClient();
-    FTPClient(char*, char*, char*);
-    FTPClient(char* );
-    ~FTPClient();
-    // char** open_connection(char* hostName, int port); //open a TCP connection to port
-    int open_connection(char* hostName, int port);
-    void close_connection();
-    void quit();
-    int login(char *username, char* password);
-    int getUserName();
-    int getPassword();
-    int sendUserName(char* nameToSend);
-    int sendMessage(char *buffer);
-    void* waitForMessage(void *ptr);
-    char* recvMessage();
-    int sendPassword(char* passToSend);
+    FTPClient();                    //default constructor
+    FTPClient(char*, char*, char*); //constructor with username and pass
+    FTPClient(char* );              //constructor that is used
+    ~FTPClient();                   //destructor
+    int open_connection(char* hostName, int port);  //open the connection
+    void close_connection();                        //close the connection
+    void quit();                                    //quit the program
+    int login(char *username, char* password);      //login/not used currently
+    int sendUserName(char* nameToSend);             //send USER
+    int sendMessage(char *buffer);                  //send mesasge
+    char* recvMessage();                            //receive message
+    int sendPassword(char* passToSend);             //send PASS
     int sendPASV();         // Send PASV to server and obtain a new Server Socket
     int sendSYST();         // send client file system type
-    int getPortFromPASV(char* );
-    bool changeDir(char* dirName);
+    int getPortFromPASV(char* );                    //get port from PASV
+    bool changeDir(char* dirName);                  //change working dir
     char* getCurrentDirContents(); //returns buffer with directory contents
-    int downloadFile(char *filename);
-    bool putFile(char* fileName);
-    bool listDir(char* pathname);
-    char *getFileName(char *filepath);
-    int getReturnCode(char *message);
-    double time_diff(struct timeval x, struct timeval y);
-    int getMessageSize(char *msg);
-    bool renameFile(char* oldFilename, char* newFilename);
-    bool makeDir(char* dirName);
-    bool removeDir(char* dirName);
-<<<<<<< HEAD
-    bool printWorkingDirectory();
-=======
-    bool deleteFile(char* fileName);
->>>>>>> e181c10916a423e45102328e643a16b9534cddae
+    int downloadFile(char *filename);               //get command
+    bool putFile(char* fileName);                   //put command
+    bool listDir(char* pathname);                   //list command
+    int getReturnCode(char *message);               //get the return code
+    double time_diff(struct timeval x, struct timeval y);   //get time
+    int getMessageSize(char *msg);                  //get message size
+    bool renameFile(char* oldFilename, char* newFilename);  //rename file
+    bool makeDir(char* dirName);                    //make directory
+    bool removeDir(char* dirName);                  //remove directory
+    bool printWorkingDirectory();                   //PWD
+    bool deleteFile(char* fileName);                //delete file
 
 private:
-    int clientSD;
-    int dataSD;
-    int recvBytes; 
-    Socket* sock;
-    Socket* serverSock;
-    char ctrlBuf[BUFSIZE + 1];
-    char dataBuf[BUFSIZE + 1];
+    int clientSD;               //stores cliends SD
+    int dataSD;                 //stores passive connection SD
+    int recvBytes;              //
+    Socket* sock;               //client socket
+    Socket* serverSock;         //server socket
+    char ctrlBuf[BUFSIZE + 1];  //
+    char dataBuf[BUFSIZE + 1];  //
 };
 
