@@ -51,9 +51,11 @@ void outputHelp() {
 
 //-----------------------------------------------------------------------------
 void outputHelp2() {
-    std::cout << "cd        ls       quit " << std::endl;
-    std::cout << "close     mkdir    rename" << std::endl;
-    std::cout << "get       put      rmdir" << std::endl;
+    std::cout << "Commands may be abbreviated. Commands are: \n" << std::endl;
+    std::cout << "cd        ls       quit    " << std::endl;
+    std::cout << "close     mkdir    rename  " << std::endl;
+    std::cout << "delete    put      rmdir   " << std::endl;
+    std::cout << "get                        " << std::endl;
     // std::cout << "get       put         close" << std::endl;
 }
 
@@ -107,6 +109,8 @@ bool execCommand(bool& connected){
             client->makeDir(userInput[1]);
         else if(!strcmp(userInput[0], "rmdir"))
             client->removeDir(userInput[1]);
+        else if(!strcmp(userInput[0], "delete"))
+            client->deleteFile(userInput[1]);
         else if(!strcmp(userInput[0], "rename"))
             client->renameFile(userInput[1], userInput[2]);
         else if(!strcmp(userInput[0], "exit"))
