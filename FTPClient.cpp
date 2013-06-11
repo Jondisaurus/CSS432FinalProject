@@ -729,5 +729,27 @@ bool FTPClient::removeDir(char* dirName){
     return true;
 }
 
+bool FTPClient::deleteFile(char* fileName){
+    
+    int code;
+    char* msgptr; 
+    char buffer[BUFSIZE];
 
+    //add MKD to buffer to be sent
+    strcpy(buffer, "DELE ");  
+    if(fileName != NULL) 
+        strcat(buffer, fileName);
+
+    //send MKD, output error if there was one, message sent on clientSD
+    if(sendMessage(buffer) < 0) {
+       perror("Can't send message\n");
+        return false;
+    }  
+
+    //Get message from server
+    msgptr = recvMessage();
+    std::cout << msgptr << std::endl;
+
+    return true;
+}
 
