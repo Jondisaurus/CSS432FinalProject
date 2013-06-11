@@ -768,6 +768,9 @@ bool FTPClient::printWorkingDirectory(){
 }
 
 bool FTPClient::deleteFile(char* fileName){
+    int code;
+    char* msgptr; 
+    char buffer[BUFSIZE];
 
     //add MKD to buffer to be sent
     strcpy(buffer, "DELE ");  
