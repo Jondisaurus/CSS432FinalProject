@@ -43,11 +43,8 @@ public:
     bool renameFile(char* oldFilename, char* newFilename);
     bool makeDir(char* dirName);
     bool removeDir(char* dirName);
-<<<<<<< HEAD
     bool printWorkingDirectory();
-=======
     bool deleteFile(char* fileName);
->>>>>>> e181c10916a423e45102328e643a16b9534cddae
 
 private:
     int clientSD;
