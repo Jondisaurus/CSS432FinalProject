@@ -42,6 +42,7 @@ public:
     int getMessageSize(char *msg);
     bool renameFile(char* oldFilename, char* newFilename);
     bool makeDir(char* dirName);
+    bool removeDir(char* dirName);
 
 private:
     int clientSD;

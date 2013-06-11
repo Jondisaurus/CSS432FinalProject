@@ -191,6 +191,9 @@ int FTPClient::sendPassword(char* password) {
     strcpy(buffer, recvMessage());
     std::cout << buffer << std::endl;
 
+    if(getReturnCode(buffer) == 501)
+        return -1;
+
     strcpy(buffer, recvMessage());
     cout << buffer << endl; 
     
@@ -382,7 +385,7 @@ bool FTPClient::changeDir(char* dirName) {
 //List command
 char* FTPClient::getCurrentDirContents() {
 
-    cout << "in getCurrentDirContents" << endl;
+    // cout << "in getCurrentDirContents" << endl;
 
     int code;
     char* dataptr;
@@ -518,6 +521,7 @@ int FTPClient::downloadFile(char *filepath) {
         cout << "get file size was 0!" << endl;
         file.close();
         close(dataSD);
+        recvMessage();
         return 0;
     }
     //start timer
@@ -555,7 +559,7 @@ int FTPClient::getMessageSize(char *msg) {
         }
     }
 
-    memcpy( array, msg+start, end-start );
+    memcpy( array, msg+start, (end)-start );
     return atoi(array);
 }
 
@@ -685,6 +689,30 @@ bool FTPClient::makeDir(char* dirName){
 
     //add MKD to buffer to be sent
     strcpy(buffer, "MKD ");  
+    if(dirName != NULL) 
+        strcat(buffer, dirName);
+
+    //send MKD, output error if there was one, message sent on clientSD
+    if(sendMessage(buffer) < 0) {
+       perror("Can't send message\n");
+        return false;
+    }  
+
+    //Get message from server
+    msgptr = recvMessage();
+    std::cout << msgptr << std::endl;
+
+    return true;
+}
+
+bool FTPClient::removeDir(char* dirName){
+    
+    int code;
+    char* msgptr; 
+    char buffer[BUFSIZE];
+
+    //add MKD to buffer to be sent
+    strcpy(buffer, "RMD ");  
     if(dirName != NULL) 
         strcat(buffer, dirName);
 

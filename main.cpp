@@ -45,8 +45,16 @@ char** getUserInput() {
 
 //-----------------------------------------------------------------------------
 void outputHelp() {
-    std::cout << "Wrong usage! Please use like this: " << std::endl;
-    std::cout << "./ftp hostName username password" << std::endl;
+    // std::cout << "Wrong usage! Please use like this: " << std::endl;
+    std::cout << "./ftp hostName" << std::endl;
+}
+
+//-----------------------------------------------------------------------------
+void outputHelp2() {
+    std::cout << "cd        ls       quit " << std::endl;
+    std::cout << "close     mkdir    rename" << std::endl;
+    std::cout << "get       put      rmdir" << std::endl;
+    // std::cout << "get       put         close" << std::endl;
 }
 
 bool execCommand(char** userInput, bool& connected){
@@ -96,6 +104,8 @@ bool execCommand(char** userInput, bool& connected){
 
         else if(!strcmp(userInput[0], "mkdir"))
             client->makeDir(userInput[1]);
+        else if(!strcmp(userInput[0], "rmdir"))
+            client->removeDir(userInput[1]);
         else if(!strcmp(userInput[0], "rename"))
             client->renameFile(userInput[1], userInput[2]);
         else if(!strcmp(userInput[0], "exit"))
@@ -107,7 +117,7 @@ bool execCommand(char** userInput, bool& connected){
         else if(!strcmp(userInput[0], "password"))
             client->sendPassword(userInput[1]);
         else if(!strcmp(userInput[0], "help") || !strcmp(userInput[0], "?"))
-            outputHelp(); 
+            outputHelp2(); 
         else
             std::cout << "INVALID COMMAND - Please re-enter or type (?)" << std::endl;
 
@@ -127,13 +137,17 @@ bool execCommand(char** userInput, bool& connected){
             }
             prompt.str("");
             std::string userString( getlogin() );
-            std::cout << "Name (" << userInput[1] << ":" << userString << "): ";
 
-            getUserInput();
+            do {
+                std::cout << "Name (" << serverIP << ":" << userString << "): ";
+                getUserInput();
+            }while( userInput[0] == NULL );
 
             client->sendUserName(userInput[0]);
-            std::cout << "Password: ";
-            getUserInput();
+            do {
+                std::cout << "Password: ";
+                getUserInput();
+            }while( userInput[0] == NULL );
             client->sendPassword(userInput[0]);
             connected = true; 
             prompt.str("ftp> ");
@@ -174,18 +188,19 @@ int main( int argc, char* argv[] ) {
         std::string userString( getlogin() );
 
         do {
-        std::cout << "Name (" << serverIP << ":" << userString << "): ";
-        getUserInput();
+            std::cout << "Name (" << serverIP << ":" << userString << "): ";
+            getUserInput();
         }while( userInput[0] == NULL );
 
         client->sendUserName(userInput[0]);
 
-        do {
-        std::cout << "Password: ";
-        getUserInput();
-        }while( userInput[0] == NULL );
+        do{
+            do {
+                std::cout << "Password: ";
+                getUserInput();
+            }while( userInput[0] == NULL );
+        }while(client->sendPassword(userInput[0]) == -1);
 
-        client->sendPassword(userInput[0]);
         connected = true; 
     }
     else{
