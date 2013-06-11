@@ -8,7 +8,6 @@
 #include <iostream>
 #include <sys/poll.h>
 #include <string>
-#include "Exception.h"
 #include <fstream>
 #include <unistd.h>
 #include <stdio.h>
