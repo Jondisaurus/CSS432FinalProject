@@ -99,6 +99,23 @@ int FTPClient::open_connection(char* hostName, int port) {
 
  //-----------------------------------------------------------------------------
 void FTPClient::close_connection() {
+    int code;
+    char* msgptr; 
+    char buffer[BUFSIZE];
+
+    //add quitto buffer to be sent
+    strcpy(buffer, "QUIT");  
+
+    //send MKD, output error if there was one, message sent on clientSD
+    if(sendMessage(buffer) < 0) {
+       perror("Can't send message\n");
+       exit(1); //might as well leave
+    }  
+
+    //Get message from server
+    msgptr = recvMessage();
+    std::cout << msgptr << std::endl;
+
     close(clientSD);
 }
 
@@ -676,9 +693,10 @@ bool FTPClient::renameFile(char* oldFilename, char* newFilename){
     }
 
     //Get message from server
+    delete [] msgptr; 
     msgptr = recvMessage();
     std::cout << msgptr << std::endl;
-
+    delete [] msgptr; 
     return true;
 }
 bool FTPClient::makeDir(char* dirName){

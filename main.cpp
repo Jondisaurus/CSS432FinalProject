@@ -59,7 +59,7 @@ void outputHelp2() {
     // std::cout << "get       put         close" << std::endl;
 }
 
-bool execCommand(char** userInput, bool& connected){
+bool execCommand(bool& connected){
 
     if(userInput[0] == NULL)
         return true;
@@ -76,6 +76,7 @@ bool execCommand(char** userInput, bool& connected){
                 port = atoi(userInput[2]);
             }
 
+            std::cout << userInput[1] << std::endl; 
             while(client->open_connection(userInput[1], port) <= 0){
                 std::cout << "Cant connect. Reenter url";
                 //std::cin >> userInput[1];
@@ -217,7 +218,7 @@ int main( int argc, char* argv[] ) {
 
     do{
         getUserInput();
-    }while(execCommand(userInput, connected));
+    }while(execCommand(connected));
 
     return 0;
 }
