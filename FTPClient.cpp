@@ -71,22 +71,29 @@ FTPClient::~FTPClient() {
 // }
 
 int FTPClient::open_connection(char* hostName, int port) {
-    char* hostBuf = new char[sizeof(hostName)];
-    strcpy(hostBuf, hostName);
+
+    // cout << "in open connection, hostname: " << hostName << " port: " << port << endl;
+
+    // char* hostBuf = new char[sizeof(hostName)];
+    // strcpy(hostBuf, hostName);
     // Setup
     char buffer_in[1450];
     bzero(buffer_in,1450);
 
      // Attempt to connect to server
     sock = new Socket(port);
-    clientSD = sock->getClientSocket(hostBuf);
+    // cout << "opened new socket, hostBuf: " << endl;
+    clientSD = sock->getClientSocket(hostName);
+    // cout << "about to recvMessage" << endl;
     strcpy( buffer_in, recvMessage() );
+    // cout << "done recvMessage" << endl;
     std::cout << buffer_in << std::endl;
     while(getReturnCode(buffer_in) != 220) {
        std::cout << "Incorrect hostname and port: Enter new one" <<  std::endl;
        strcpy( buffer_in, recvMessage() );
     }
  
+    // cout << "done in open connection" << endl;
     return clientSD; //true if > 0
 }
 
@@ -241,6 +248,9 @@ int FTPClient::sendMessage(char* buffer) {
 
 //-----------------------------------------------------------------------------
 char* FTPClient::recvMessage() {
+
+
+
     //Configure polling
     struct pollfd ufds;
     ufds.fd = clientSD;
@@ -371,6 +381,9 @@ bool FTPClient::changeDir(char* dirName) {
 //-----------------------------------------------------------------------------
 //List command
 char* FTPClient::getCurrentDirContents() {
+
+    cout << "in getCurrentDirContents" << endl;
+
     int code;
     char* dataptr;
     char* msgptr; 

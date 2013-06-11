@@ -50,6 +50,10 @@ void outputHelp() {
 }
 
 bool execCommand(char** userInput, bool& connected){
+
+    if(userInput[0] == NULL)
+        return true;
+
     if(connected){
     //--------- CLIENT CONNECTED
 
@@ -168,12 +172,19 @@ int main( int argc, char* argv[] ) {
         client = new FTPClient(argv[1]);
     
         std::string userString( getlogin() );
+
+        do {
         std::cout << "Name (" << serverIP << ":" << userString << "): ";
         getUserInput();
+        }while( userInput[0] == NULL );
 
         client->sendUserName(userInput[0]);
+
+        do {
         std::cout << "Password: ";
         getUserInput();
+        }while( userInput[0] == NULL );
+
         client->sendPassword(userInput[0]);
         connected = true; 
     }
