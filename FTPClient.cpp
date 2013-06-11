@@ -744,10 +744,6 @@ bool FTPClient::deleteFile(char* fileName){
     char* msgptr; 
     char buffer[BUFSIZE];
 
-    int code;
-    char* msgptr; 
-    char buffer[BUFSIZE];
-
     //add DELE to buffer to be sent
     strcpy(buffer, "DELE ");  
     if(fileName != NULL) 
