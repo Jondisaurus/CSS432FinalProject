@@ -50,7 +50,6 @@ void outputHelp() {
 }
 
 bool execCommand(char** userInput, bool& connected){
-    std::cout << "||" << userInput[0] << "||" << userInput[1] << "||" << std::endl; 
     if(connected){
     //--------- CLIENT CONNECTED
 
@@ -65,7 +64,7 @@ bool execCommand(char** userInput, bool& connected){
 
             while(client->open_connection(userInput[1], port) <= 0){
                 std::cout << "Cant connect. Reenter url";
-                std::cin >> userInput[1];
+                //std::cin >> userInput[1];
             }
             prompt.str("");
             std::string userString( getlogin() );
