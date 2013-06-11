@@ -113,6 +113,8 @@ bool execCommand(bool& connected){
             client->quit();
         else if(!strcmp(userInput[0], "quit"))
             client->quit();
+        else if(!strcmp(userInput[0], "pwd"))
+            client->printWorkingDirectory();
         else if(!strcmp(userInput[0], "name"))
             client->sendUserName(userInput[1]);
         else if(!strcmp(userInput[0], "password"))

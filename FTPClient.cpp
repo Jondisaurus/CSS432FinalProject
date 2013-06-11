@@ -747,5 +747,24 @@ bool FTPClient::removeDir(char* dirName){
     return true;
 }
 
+bool FTPClient::printWorkingDirectory(){
+    int code;
+    char* msgptr; 
+    char buffer[BUFSIZE];
+
+    //add PWD to buffer to be sent
+    strcpy(buffer, "PWD");  
+
+    //send PWD, output error if there was one, message sent on clientSD
+    if(sendMessage(buffer) < 0) {
+       perror("Can't send message\n");
+       exit(1); //might as well leave
+    }  
+
+    //Get message from server
+    msgptr = recvMessage();
+    std::cout << msgptr << std::endl;
+}
+
 
 
